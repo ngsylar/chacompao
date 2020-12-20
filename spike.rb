@@ -18,7 +18,7 @@ class Song
     end
 
     # le um verso de acordes e o transforma em uma hash com as posicoes dos acordes
-    def self.create_lines_of (chords)
+    def self.create_lines_from (chords)
         chords_lines = []
         chords.lines.each_with_index do |line|
             chords_txt = line.split(/(\s)/).delete_if{|token| token.empty?}
@@ -34,6 +34,26 @@ class Song
             chords_lines << chord_pos
         end
         chords_lines
+    end
+
+    # transforma uma hash de acordes em uma string
+    def self.create_text_from (tuned_chords)
+        tuned_chords.map! do |line|
+            line_txt = ""
+            line.each do |key, value|
+                while line_txt.size < key
+                    line_txt << " "
+                end
+                line_txt << value
+            end
+            line_txt
+        end
+
+        chords = ""
+        tuned_chords.each do |line|
+            chords << line
+        end
+        chords
     end
 
     # muda a tonalidade de um arranjo de acordes
@@ -66,8 +86,8 @@ class Song
     end
 
     # muda a tonalidade de um verso
-    def self.change_verse_tone (chords, key_change)
-        chords_lines = create_lines_of(chords)
+    def self.change_tone (chords, key_change=0)
+        chords_lines = create_lines_from(chords)
 
         # muda a tonalidade de todos os acordes
         chords_lines.map! do |line|
@@ -90,28 +110,8 @@ class Song
             # insere linha transposta no verso
             tuned_line.to_h
         end
-    end
 
-    # 
-    def self.change_tone (chords, key_change=0)
-        tuned_chords = change_verse_tone(chords, key_change)
-
-        tuned_chords.map! do |line|
-            line_txt = ""
-            line.each do |key, value|
-                while line_txt.size < key
-                    line_txt << " "
-                end
-                line_txt << value
-            end
-            line_txt
-        end
-
-        chords_txt = ""
-        tuned_chords.each do |line|
-            chords_txt << line
-        end
-        chords_txt
+        create_text_from(chords_lines)
     end
 end
 
