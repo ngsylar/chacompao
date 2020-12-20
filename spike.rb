@@ -17,6 +17,25 @@ class Song
         ]
     end
 
+    # le um verso de acordes e o transforma em uma hash com as posicoes dos acordes
+    def self.create_lines_of (chords)
+        chords_lines = []
+        chords.lines.each_with_index do |line|
+            chords_txt = line.split(/(\s)/).delete_if{|token| token.empty?}
+            chord_pos = {}
+            pred_chord_size = 0
+            chords_txt.each_with_index do |chord, i|
+                unless chord == " "
+                    pos = i + pred_chord_size
+                    chord_pos[pos] = chord
+                    pred_chord_size += chord.size - 1
+                end
+            end
+            chords_lines << chord_pos
+        end
+        chords_lines
+    end
+
     # muda a tonalidade de um arranjo de acordes
     def self.change_chords (chords, key_change)
         chords.map! do |chord|
@@ -47,21 +66,12 @@ class Song
     end
 
     # muda a tonalidade de um verso
-    def self.change_tone (chords, key_change=0)
-        # le um verso de acordes e o transforma em uma hash com as posicoes dos acordes
-        chords_lines = []
-        chords.lines.each_with_index do |line|
-            chords_txt = line.split(/(\s)/).delete_if{|token| token.empty?}
-            chord_pos = {}
-            chords_txt.each_with_index do |chord, i|
-                chord_pos[i] = chord unless chord == "\s"
-            end
-            chords_lines << chord_pos
-        end
-        p chords_lines
+    def self.change_verse_tone (chords, key_change)
+        chords_lines = create_lines_of(chords)
 
         # muda a tonalidade de todos os acordes
         chords_lines.map! do |line|
+            # muda a tonalidade de uma linha
             tuned_chords = change_chords(line.values, key_change)
             tuned_line = line.keys.zip(tuned_chords)
         
@@ -77,9 +87,31 @@ class Song
                 end
             end
 
-            # insere linha alterada no verso
+            # insere linha transposta no verso
             tuned_line.to_h
         end
+    end
+
+    # 
+    def self.change_tone (chords, key_change=0)
+        tuned_chords = change_verse_tone(chords, key_change)
+
+        tuned_chords.map! do |line|
+            line_txt = ""
+            line.each do |key, value|
+                while line_txt.size < key
+                    line_txt << " "
+                end
+                line_txt << value
+            end
+            line_txt
+        end
+
+        chords_txt = ""
+        tuned_chords.each do |line|
+            chords_txt << line
+        end
+        chords_txt
     end
 end
 
@@ -91,4 +123,5 @@ chords = "C    Em  Am        F     C    G
 lyrics << "\n" unless lyrics[lyrics.size - 1] == "\n"
 chords << "\n" unless chords[chords.size - 1] == "\n"
 
+p chords
 p Song.change_tone(chords, 2)
