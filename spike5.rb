@@ -194,27 +194,51 @@ class Song
 
     # separa letra de acordes em um verso da musica
     def verse_parser (verse)
-        verse_estructure = []
+        p @song_partitions[verse]
+        @verse_estructure = []
+        @lyrics = ""
+        @chords = ""
 
-        lyrics = ""
-        chords = ""
+        # para cada linha do verso
         @song_partitions[verse].each do |line|
             splitted_line = line.split(/\s+/).delete_if{|token| token.empty?}
             splitted_line.each_with_index do |token, token_i|
+                # se linha contem nao acorde, salva linha na variavel de letras
                 if not_chord(token)
-                    verse_estructure << "L"
-                    lyrics << line
+                    @verse_estructure << "L"
+                    @lyrics << line
                     break
+                # se linha contem apenas acordes, salva linha na variavel de acordes
                 elsif token_i == (splitted_line.size - 1)
-                    verse_estructure << "C"
-                    chords << line
+                    @verse_estructure << "C"
+                    @chords << line
                 end
             end
         end
+    end
 
-        p lyrics
-        p chords
-        p verse_estructure
+    # une letra e acordes em um verso da musica
+    def join_verse_lines
+        verse = []
+        splitted_lyrics = @lyrics.split(/\n/)
+        splitted_chords = @chords.split(/\n/)
+        
+        # analisa a estrutura do verso para unir as linhas na ordem correta
+        @verse_estructure.each do |type|
+            case type
+            when "L"
+                verse << splitted_lyrics.shift
+                verse.last << "\n" unless verse.last[verse.last.size - 1] == "\n"
+            when "C"
+                verse << splitted_chords.shift
+                verse.last << "\n" unless verse.last[verse.last.size - 1] == "\n"
+            end
+        end
+
+        # limpa variaveis temporarias da musica
+        @lyrics = ""
+        @chords = ""
+        p verse
     end
 
     # getters
@@ -278,3 +302,4 @@ p song_inst.estructure
 print "\n"
 
 song_inst.verse_parser(song_inst.estructure[1])
+song_inst.join_verse_lines
