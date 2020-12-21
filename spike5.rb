@@ -17,6 +17,16 @@ class Song
         ]
     end
 
+    # atribui valores a musica
+    def initialize (title, author=nil, key="C", category=nil, number=nil, description=nil, user=nil)
+        @title = title
+        @author = author
+        @key = key
+        @category = category
+        @number = number
+        @description = description
+    end
+
     # le um verso de acordes e o transforma em uma hash com as posicoes dos acordes
     def create_lines_from (chords)
         chords_lines = []
@@ -271,9 +281,14 @@ class Song
     def part_struct
         @partitions_structure
     end
+    def preds
+        p @title
+        p @author
+    end
 end
 
 song_text = "Intro: C G Am C G
+C G Am C G
  
 C    Em  Am        F     C    G
 Wise men say, only fools rush in
@@ -319,11 +334,19 @@ Instrumentos: Am C
 
 Final: G"
 
-song_inst = Song.new
+song_inst = Song.new("Can't Help Falling In Love", "Elvis Presley")
 song_inst.song_parser(song_text)
 p song_inst.structure
+p song_inst.part_struct
+print "\n"
 p song_inst.partitions
 print "\n"
 
 song_inst.change_tone(2)
 p song_inst.partitions
+print "\n"
+p song_inst.structure
+p song_inst.part_struct
+print "\n"
+
+song_inst.preds
