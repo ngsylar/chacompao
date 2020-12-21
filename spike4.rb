@@ -46,6 +46,8 @@ Instrumentos: C G
 
 Final: C G Am C G
 
+Instrumentos: Am C
+
 Final: G"
 
 # faz correcao de final de musica
@@ -79,6 +81,7 @@ song_text.lines.each do |line|
             # se identificador ja esta na estrutura, renomeia identificador atual
             verse_j = 2
             while song_estructure.include?(verse_name)
+                verse_name.gsub!(/\s*\d+$/, "") if /\s*\d+$/ === verse_name
                 verse_name = "#{verse_name} #{verse_j}"
                 verse_j += 1
             end
@@ -87,11 +90,11 @@ song_text.lines.each do |line|
             verse << line unless line == nil
 
         # se nao
-        when /^\s*(.)+\s*\n*$/
+        when /^\s*(.)+\s*\n+$/
             # se linha eh identificador existente na estrutura, reinserir identificador na estrutura
-            line.strip!
-            if song_estructure.include?(line) && verse_name.empty?
-                song_estructure << line
+            stripped_line = line.strip
+            if song_estructure.include?(stripped_line) && verse_name.empty?
+                song_estructure << stripped_line
             # se nao, guarda linha em uma variavel temporaria
             else
                 verse << line
@@ -120,3 +123,20 @@ end
 #     puts "#{key}: #{verse}"
 # end
 p song_estructure
+print "\n"
+
+lyrics = ""
+chords = ""
+song_partitions["Verse 1"].each do |line|
+    splitted_line = line.split(/\s+/)
+    splitted_line.each_with_index do |token, i|
+        if /^[[:lower:]]/ === token
+            lyrics << line
+            break
+        elsif i == (splitted_line.size - 1)
+            chords << line
+        end
+    end
+end
+p lyrics
+p chords
