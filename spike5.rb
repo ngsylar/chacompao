@@ -1,6 +1,6 @@
 class Song
     # define os acordes conhecidos
-    def self.bib
+    def bib
         [
             ['A'],
             ['A#', 'Bb'],
@@ -18,7 +18,7 @@ class Song
     end
 
     # le um verso de acordes e o transforma em uma hash com as posicoes dos acordes
-    def self.create_lines_from (chords)
+    def create_lines_from (chords)
         chords_lines = []
         chords.lines.each_with_index do |line|
             chords_txt = line.split(/(\s)/).delete_if{|token| token.empty?}
@@ -37,7 +37,7 @@ class Song
     end
 
     # transforma uma hash de acordes em uma string
-    def self.create_text_from (tuned_chords)
+    def create_text_from (tuned_chords)
         tuned_chords.map! do |line|
             line_txt = ""
             line.each do |key, value|
@@ -57,7 +57,7 @@ class Song
     end
 
     # muda a tonalidade de um arranjo de acordes
-    def self.change_chords (chords, key_change)
+    def change_chords (chords, key_change)
         chords.map! do |chord|
             # divide o acorde em partes menores
             tokens = chord.split(/([\/ABCDEFG][#b]*)/).delete_if{|token| token.empty?}
@@ -86,8 +86,8 @@ class Song
     end
 
     # muda a tonalidade de um verso
-    def self.change_tone (chords, key_change=0)
-        chords_lines = create_lines_from(chords)
+    def change_tone (key_change=0)
+        chords_lines = create_lines_from(@temp_chords)
 
         # muda a tonalidade de todos os acordes
         chords_lines.map! do |line|
@@ -111,7 +111,7 @@ class Song
             tuned_line.to_h
         end
 
-        create_text_from(chords_lines)
+        @temp_chords = create_text_from(chords_lines)
     end
 
     # cria uma estrutura de dados para a musica
@@ -189,15 +189,15 @@ class Song
     # verifica se o token nao eh um acorde
     def not_chord (token)
         bib_token = [] << token[0]
-        /^[[:lower:]]/ === token || !Song.bib.include?(bib_token)
+        /^[[:lower:]]/ === token || !bib.include?(bib_token)
     end
 
     # separa letra de acordes em um verso da musica
     def verse_parser (verse)
         p @song_partitions[verse]
         @verse_estructure = []
-        @lyrics = ""
-        @chords = ""
+        @temp_lyrics = ""
+        @temp_chords = ""
 
         # para cada linha do verso
         @song_partitions[verse].each do |line|
@@ -206,12 +206,12 @@ class Song
                 # se linha contem nao acorde, salva linha na variavel de letras
                 if not_chord(token)
                     @verse_estructure << "L"
-                    @lyrics << line
+                    @temp_lyrics << line
                     break
                 # se linha contem apenas acordes, salva linha na variavel de acordes
                 elsif token_i == (splitted_line.size - 1)
                     @verse_estructure << "C"
-                    @chords << line
+                    @temp_chords << line
                 end
             end
         end
@@ -220,8 +220,8 @@ class Song
     # une letra e acordes em um verso da musica
     def join_verse_lines
         verse = []
-        splitted_lyrics = @lyrics.split(/\n/)
-        splitted_chords = @chords.split(/\n/)
+        splitted_lyrics = @temp_lyrics.split(/\n/)
+        splitted_chords = @temp_chords.split(/\n/)
         
         # analisa a estrutura do verso para unir as linhas na ordem correta
         @verse_estructure.each do |type|
@@ -236,8 +236,9 @@ class Song
         end
 
         # limpa variaveis temporarias da musica
-        @lyrics = ""
-        @chords = ""
+        @verse_estructure = []
+        @temp_lyrics = ""
+        @temp_chords = ""
         p verse
     end
 
