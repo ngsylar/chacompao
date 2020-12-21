@@ -119,7 +119,7 @@ class Song
     end
 
     # une letra e acordes em um verso da musica
-    def join_verse_lines
+    def join_verse_lines (verse_name)
         verse = []
         splitted_lyrics = @temp_lyrics.split(/\n/)
         splitted_chords = @temp_chords.split(/\n/)
@@ -136,17 +136,19 @@ class Song
             end
         end
 
+        # salva o verso com acordes alterados
+        @song_partitions[verse_name] = verse
+
         # limpa variaveis temporarias da musica
         @verse_structure = []
         @temp_lyrics = ""
         @temp_chords = ""
-        p verse
     end
 
     # muda a tonalidade de um verso
-    def change_verse_tone (verse, key_change)
+    def change_verse_tone (verse_name, key_change)
         # cria variavel com os acordes original
-        verse_parser(verse)
+        verse_parser(verse_name)
         chords_lines = create_lines_from(@temp_chords)
 
         # muda a tonalidade de todos os acordes
@@ -171,15 +173,15 @@ class Song
             tuned_line.to_h
         end
 
-        # salva variavel com os acordes alterados
+        # salva os acordes alterados
         @temp_chords = create_text_from(chords_lines)
-        # join_verse_lines
+        join_verse_lines(verse_name)
     end
 
     # muda a tonalidade da musica
     def change_tone (key_change=0)
-        @song_structure.uniq.each do |verse|
-            change_verse_tone(verse, key_change)
+        @song_structure.uniq.each do |verse_name|
+            change_verse_tone(verse_name, key_change)
         end
     end
 
@@ -320,7 +322,8 @@ Final: G"
 song_inst = Song.new
 song_inst.song_parser(song_text)
 p song_inst.structure
-p song_inst.part_struct
+p song_inst.partitions
 print "\n"
 
 song_inst.change_tone(2)
+p song_inst.partitions
