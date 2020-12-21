@@ -1,3 +1,20 @@
+def bib
+    [
+        ['A'],
+        ['A#', 'Bb'],
+        ['B'],
+        ['C'],
+        ['C#', 'Db'],
+        ['D'],
+        ['D#', 'Eb'],
+        ['E'],
+        ['F'],
+        ['F#', 'Gb'],
+        ['G'],
+        ['G#', 'Ab']
+    ]
+end
+
 song_text = "Intro: C G Am C G
  
 C    Em  Am        F     C    G
@@ -26,12 +43,6 @@ Take my hand, take my whole life too
 For I can't help falling in love with you
  
 Coro
-
-Coro
-
-Coro
-Coro
-
                           
 Instrumentos: C G Am C G
 
@@ -125,12 +136,18 @@ end
 p song_estructure
 print "\n"
 
+# verifica se o token nao eh um acorde
+def not_chord (token)
+    bib_token = [] << token[0]
+    /^[[:lower:]]/ === token || !bib.include?(bib_token)
+end
+
 lyrics = ""
 chords = ""
 song_partitions["Verse 1"].each do |line|
-    splitted_line = line.split(/\s+/)
+    splitted_line = line.split(/\s+/).delete_if{|token| token.empty?}
     splitted_line.each_with_index do |token, i|
-        if /^[[:lower:]]/ === token
+        if not_chord(token)
             lyrics << line
             break
         elsif i == (splitted_line.size - 1)
