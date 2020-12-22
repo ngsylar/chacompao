@@ -18,7 +18,7 @@ class Song
     end
 
     # atribui valores a musica
-    def initialize (title, author=nil, key="C", category=nil, number=nil, description=nil, user=nil)
+    def initialize (title, author=nil, key="C", category=nil, number=nil, description=nil, user=nil, version=nil)
         @title = title
         @author = author
         @key = key
