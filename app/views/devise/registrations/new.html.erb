@@ -9,6 +9,15 @@
   </div>
 
   <div class="field">
+    <%= f.label :full_name %><br />
+    <%= f.text_field :full_name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.hidden_field :role, value: "commonuser" %>
+  </div>
+
+  <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
