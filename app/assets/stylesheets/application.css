@@ -14,6 +14,13 @@
  *= require_self
  */
 
-p.chords {
-    font-family: monospace;
+p.text {
+    font-family: monospace
+}
+span.chords {
+    white-space: pre;
+    color:#cc0000
+}
+span.lyrics {
+    white-space: pre;
 }

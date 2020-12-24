@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nome:</strong>
+  <%= @teste.nome %>
+</p>
+
+<p class="text">
+  <% @teste.texto.lines.each do |line| %>
+    <% if line[0] == 'd' %>
+      <span class="chords"><%= line %></span>
+    <% else %>
+      <span class="lyrics"><%= line %></span>
+    <% end %>
+  <% end %>
+</p>
+<br/>
+
+<%= link_to 'Edit', edit_testis_path(@teste) %> |
+<%= link_to 'Back', testes_path %>
