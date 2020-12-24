@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Song:</strong>
+  <%= @version.song_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @version.user_id %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @version.title %>
+</p>
+
+<p>
+  <strong>Key:</strong>
+  <%= @version.key %>
+</p>
+
+<p>
+  <strong>Songstruct:</strong>
+  <%= @version.songstruct %>
+</p>
+
+<p>
+  <strong>Songparts:</strong>
+  <%= @version.songparts %>
+</p>
+
+<p>
+  <strong>Partsstructs:</strong>
+  <%= @version.partsstructs %>
+</p>
+
+<%= link_to 'Edit', edit_version_path(@version) %> |
+<%= link_to 'Back', versions_path %>

@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  song: one
+  user: one
+  title: MyString
+  key: MyString
+  songstruct: MyText
+  songparts: MyText
+  partsstructs: MyText
+
+two:
+  song: two
+  user: two
+  title: MyString
+  key: MyString
+  songstruct: MyText
+  songparts: MyText
+  partsstructs: MyText

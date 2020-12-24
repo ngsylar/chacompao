@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Versions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Song</th>
+      <th>User</th>
+      <th>Title</th>
+      <th>Key</th>
+      <th>Songstruct</th>
+      <th>Songparts</th>
+      <th>Partsstructs</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @versions.each do |version| %>
+      <tr>
+        <td><%= version.song_id %></td>
+        <td><%= version.user_id %></td>
+        <td><%= version.title %></td>
+        <td><%= version.key %></td>
+        <td><%= version.songstruct %></td>
+        <td><%= version.songparts %></td>
+        <td><%= version.partsstructs %></td>
+        <td><%= link_to 'Show', version %></td>
+        <td><%= link_to 'Edit', edit_version_path(version) %></td>
+        <td><%= link_to 'Destroy', version, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Version', new_version_path %>
