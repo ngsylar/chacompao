@@ -6,3 +6,5 @@ I18n.available_locales = [:en]
 text = "A reunião está em curso"
 p text
 p I18n.transliterate(text)
+
+# adicionar favoritos de usuarios (version_id)

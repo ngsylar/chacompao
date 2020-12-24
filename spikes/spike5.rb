@@ -350,3 +350,21 @@ p song_inst.part_struct
 print "\n"
 
 song_inst.preds
+print "\n"
+
+song_structure = song_inst.structure.to_s
+p song_structure.gsub(/[\[\]\"]/, "").split(", ")
+print "\n"
+
+song_part_struct = song_inst.part_struct.to_s
+p song_part_struct.gsub(/[{}\"]/, "").split("], ").map{
+    |h| h1,h2 = h.split("=>[");
+    {h1 => h2.split(", ")}
+}.reduce(:merge)
+print "\n"
+
+song_partitions = song_inst.partitions.to_s
+p song_partitions.gsub(/[{}\"]/, "").split("], ").map{
+    |h| h1,h2 = h.split("=>[");
+    {h1 => h2.gsub("\\n", "\n").split(", ")}
+}.reduce(:merge)
