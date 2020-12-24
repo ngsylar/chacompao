@@ -24,10 +24,22 @@ class SongsController < ApplicationController
   # POST /songs
   # POST /songs.json
   def create
-    @song = Song.new(song_params)
+    version_key = params[:song].delete("key")
+    version_text = params[:song].delete("text")
 
+    @song = Song.new(song_params)
+    
     respond_to do |format|
       if @song.save
+        version_params = {
+          song_id: @song.id,
+          user_id: current_user.id,
+          title: "default",
+          key: version_key,
+          songstruct: version_text
+        }
+        default_version = Version.create!(version_params)
+
         format.html { redirect_to @song, notice: 'Song was successfully created.' }
         format.json { render :show, status: :created, location: @song }
       else

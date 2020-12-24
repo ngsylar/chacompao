@@ -1,11 +1,22 @@
 <h1>Chá com Pão</h1>
 
 <% if user_signed_in? %>
-  <h3>Usuário atual</h3>
-  <p><strong>Nome: </strong><%= current_user.full_name %></p>
-  <p><strong>Email: </strong><%= current_user.email %></p>
-  <p><strong>Cargo: </strong><%= current_user.role %></p>
+  <p><strong>Nome: </strong><%= current_user.full_name %><br/>
+  <strong>Email: </strong><%= current_user.email %><br/>
+  <strong>Cargo: </strong>
+    <% case current_user.role %>
+    <% when "administrator" %>
+      Administrador
+    <% when "musician" %>
+      Instrumentista
+    <% when "commonuser" %>
+      Cantor
+    <% end %>
+  </p>
+  <%= link_to "Cifras", songs_path %>
+  <br/><br/>
   <%= link_to "Sair", destroy_user_session_path, method: :delete %>
+
 <% else %>
   <h3>Entre para acessar o sistema!</h3>
   <%= link_to "Entrar", new_user_session_path %>

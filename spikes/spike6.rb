@@ -7,4 +7,9 @@ text = "A reunião está em curso"
 p text
 p I18n.transliterate(text)
 
+hash = {"title"=>"teste", "author"=>"teste", "category"=>"teste", "number"=>"0"}
+param = hash.delete("category")
+p hash
+p param
+
 # adicionar favoritos de usuarios (version_id)
