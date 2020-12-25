@@ -10,6 +10,19 @@ class SongsController < ApplicationController
   # GET /songs/1
   # GET /songs/1.json
   def show
+    versions = Version.where(song_id: @song.id)
+    @my_versions = []
+    @other_vers = []
+    
+    versions.each do |version|
+      if version.title == "default"
+        @def_version = version
+      elsif version.user_id == current_user.id
+        @my_versions << version
+      else
+        @other_vers << version
+      end
+    end
   end
 
   # GET /songs/new

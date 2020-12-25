@@ -10,6 +10,8 @@ class VersionsController < ApplicationController
   # GET /versions/1
   # GET /versions/1.json
   def show
+    @song = Song.find(@version.song_id)
+    @user = User.find(@version.user_id)
   end
 
   # GET /versions/new

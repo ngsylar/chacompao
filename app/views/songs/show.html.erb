@@ -1,24 +1,57 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Title:</strong>
-  <%= @song.title %>
+  <h2><%= @song.title %></h2>
+  <h3><%= @song.author %></h3>
+  <strong><%= link_to "Cifra Padrão", @def_version %>
+  (<%= @def_version.key %>)</strong>
 </p>
+<br/>
 
-<p>
-  <strong>Author:</strong>
-  <%= @song.author %>
-</p>
+<h3>Minhas cifras</h3>
+<%= link_to 'Criar nova cifra', edit_song_path(@song) %>
+<table>
+  <thead>
+    <tr>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
 
-<p>
-  <strong>Category:</strong>
-  <%= @song.category %>
-</p>
+  <tbody>
+    <% @my_versions.each do |version| %>
+      <tr>
+        <td><%= link_to version.title, version %></td>
+        <td>(<%= version.key %>)</td>
+        <td><%= link_to 'Edit', edit_version_path(version) %></td>
+        <td><%= link_to 'Destroy', version, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br/>
 
-<p>
-  <strong>Number:</strong>
-  <%= @song.number %>
-</p>
+<h3>Cifras de outros usuários</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Criador</th>
+      <th>Tom</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
 
-<%= link_to 'Edit', edit_song_path(@song) %> |
-<%= link_to 'Back', songs_path %>
+  <tbody>
+    <% @other_vers.each do |version| %>
+      <tr>
+        <td><%= link_to version.title, version %></td>
+        <td><%= User.find(version.user_id).full_name %></td>
+        <td><%= version.key %></td>
+        <td><%= link_to 'Edit', edit_version_path(version) %></td>
+        <td><%= link_to 'Destroy', version, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br/><br/><%= link_to 'Voltar', songs_path %>
