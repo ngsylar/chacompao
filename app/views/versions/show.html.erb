@@ -1,16 +1,15 @@
 <p id="notice"></p>
 
 <p>
-  <h2><%= @song.title %></h2>
+  <h2><% if @song.number %>
+    <%= "#{@song.number} - " %>
+  <% end %><%= @song.title %></h2>
   <h3><%= @song.author %></h3>
 </p>
 
 <p>
   <% if (@version.title != "default") && (@user.role != "administrator") %>
-    <strong>Versão </strong>
-    <%= @version.title %>
-    <strong> por </strong>
-    <%= @user.full_name %><br/>
+    <strong><%= @version.title %></strong> por <strong><%= @user.full_name %></strong><br/>
   <% end %><br/>
   <strong>Tom:</strong>
   <span class="boldred"><%= @version.key %></span>

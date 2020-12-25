@@ -9,8 +9,9 @@
       <th>Título</th>
       <th>Artista</th>
       <th>Categoria</th>
+      <th>Cifras</th>
       <% if current_user.role == "administrator" %>
-        <th colspan="2"></th>
+        <th colspan="3"></th>
       <% end %>
     </tr>
   </thead>
@@ -23,6 +24,7 @@
         <td><%= link_to song.title, default_version %></td>
         <td><%= song.author %></td>
         <td><%= song.category %></td>
+        <td><%= link_to 'Ver todas', song %></td>
         <% if current_user.role == "administrator" %>
           <td><%= link_to 'Editar', edit_song_path(song) %></td>
           <td><%= link_to 'Excluir', song, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -35,5 +37,7 @@
 <br>
 
 <% if current_user.role == "administrator" %>
-  <%= link_to 'Enviar Nova Cifra', new_song_path %>
+  <%= link_to 'Registrar uma música', new_song_path %><br/><br>
 <% end %>
+
+<%= link_to 'Voltar', "home/index" %>

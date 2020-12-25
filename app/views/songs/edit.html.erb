@@ -1,6 +1,8 @@
 <h2>Editar informações</h2>
-<h3><%= @song.author %> - <%= @song.title %></h3>
+<h3><% unless @song.author.empty? %>
+    <%= "#{@song.author} - " %>
+<% end %><%= @song.title %></h3>
 
 <%= render 'form_edit', song: @song %>
 
-<%= link_to 'Voltar', @song %>
+<%= link_to 'Voltar', songs_path %>
