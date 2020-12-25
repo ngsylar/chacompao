@@ -36,7 +36,7 @@ class SongsController < ApplicationController
           user_id: current_user.id,
           title: "default",
           key: version_key,
-          songstruct: version_text
+          songparts: version_text
         }
         default_version = Version.create!(version_params)
 

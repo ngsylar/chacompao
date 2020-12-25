@@ -19,7 +19,8 @@
     <% @songs.each do |song| %>
       <tr>
         <td><%= song.number %></td>
-        <td><%= link_to song.title, song %></td>
+        <% default_version = Version.find_by(song_id: song.id, title: "default") %>
+        <td><%= link_to song.title, default_version %></td>
         <td><%= song.author %></td>
         <td><%= song.category %></td>
         <% if current_user.role == "administrator" %>

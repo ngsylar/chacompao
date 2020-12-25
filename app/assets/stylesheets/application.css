@@ -17,10 +17,18 @@
 p.text {
     font-family: monospace;
 }
+span.verse {
+    font-weight: bolder;
+}
 span.chords {
     white-space: pre;
     color:#cc0000;
+    font-weight: bold;
 }
 span.lyrics {
     white-space: pre;
+}
+span.red {
+    color:#cc0000;
+    font-weight: bold;
 }

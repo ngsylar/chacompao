@@ -1,0 +1,11 @@
+inst.song_parser(text)
+    change_tone
+        change_verse_tone
+            verse_parser
+                not_chord
+                    bib
+            create_lines_from
+            change_chords
+                bib
+            create_text_from
+            join_verse_lines

@@ -1,39 +1,37 @@
 <p id="notice"><%= notice %></p>
 
+<% song = Song.find(@version.song_id) %>
+<% user = User.find(@version.user_id) %>
+
 <p>
-  <strong>Song:</strong>
-  <%= @version.song_id %>
+  <h2><%= song.title %></h2>
+  <h3><%= song.author %></h3>
 </p>
 
 <p>
-  <strong>User:</strong>
-  <%= @version.user_id %>
+  <% if (@version.title != "default") && (user.role != "administrator") %>
+    <strong>Versão </strong>
+    <%= @version.title %>
+    <strong> por </strong>
+    <%= user.full_name %><br/>
+  <% end %><br/>
+  <strong>Tom:</strong>
+  <span class="red"><%= @version.key %></span>
 </p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @version.title %>
+<p class="text">
+  <% @version.transcribe.lines.each_with_index do |line, i| %>
+    <% if /:\s*\n$/ === line %>
+      <span class="verse"><%= line %></span><br/>
+    <% elsif line[0] == "C" %>
+      <span class="chords"><%= line.delete_prefix("C") %></span>
+    <% else %>
+      <span class="lyrics"><%= line.delete_prefix("L") %></span>
+    <% end %>
+  <% end %>
 </p>
 
-<p>
-  <strong>Key:</strong>
-  <%= @version.key %>
-</p>
-
-<p>
-  <strong>Songstruct:</strong>
-  <%= @version.songstruct %>
-</p>
-
-<p>
-  <strong>Songparts:</strong>
-  <%= @version.songparts %>
-</p>
-
-<p>
-  <strong>Partsstructs:</strong>
-  <%= @version.partsstructs %>
-</p>
-
-<%= link_to 'Edit', edit_version_path(@version) %> |
+<% if current_user.id == user.id %>
+  <%= link_to 'Editar cifra', edit_version_path(@version) %><br/><br/>
+<% end %>
 <%= link_to 'Back', versions_path %>
