@@ -17,6 +17,12 @@ class VersionsController < ApplicationController
   # GET /versions/new
   def new
     @version = Version.new
+
+    @song = Song.find(params[:ref_song])
+    default_version = Version.find_by(song_id: @song, title: "default")
+
+    @default_key = default_version.key
+    @default_text = default_version.handwrite
   end
 
   # GET /versions/1/edit
@@ -26,7 +32,11 @@ class VersionsController < ApplicationController
   # POST /versions
   # POST /versions.json
   def create
-    @version = Version.new(version_params)
+    mandatory_params = {
+      # song_id: @song.id,
+      user_id: current_user.id
+    }
+    @version = Version.new(version_params.merge(mandatory_params))
 
     respond_to do |format|
       if @version.save

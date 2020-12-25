@@ -7,15 +7,7 @@ class Version < ApplicationRecord
 
     # retorna os dados de forma apresentavel ao usuario
     def transcribe
-        @song_structure = self.songstruct.gsub(/[\[\]\"]/, "").split(", ")
-        @partitions_structure = self.partsstructs.gsub(/[{}\"]/, "").split("], ").map{
-            |h| h1,h2 = h.split("=>[");
-            {h1 => h2.gsub("]", "").split(", ")}
-        }.reduce(:merge)
-        @song_partitions = self.songparts.gsub(/[{}\"]/, "").split("], ").map{
-            |h| h1,h2 = h.split("=>[");
-            {h1 => h2.gsub("]", "").split("\n, ")}
-        }.reduce(:merge)
+        reverse_engineering
 
         @transcribed_text = ""
         @song_structure.each do |verse|
@@ -32,16 +24,28 @@ class Version < ApplicationRecord
         @transcribed_text
     end
 
-    private
-        # criacao de registro
-        def default_behavior
-            song_parser(self.songparts)
+    # retorna a cifra como um texto editavel
+    def handwrite
+        reverse_engineering
 
-            self.songstruct = @song_structure.to_s
-            self.songparts = @song_partitions.to_s.gsub("\\r", "").gsub("\\n", "\n")
-            self.partsstructs = @partitions_structure.to_s
+        @handwritten_text = ""
+        unwritten_verse = @song_structure.uniq
+        @song_structure.each do |verse|
+            if unwritten_verse.include?(verse)
+                @handwritten_text << "#{verse}:\n" unless /^Verse/ === verse
+                @song_partitions[verse].each do |line|
+                    @handwritten_text << "#{line}\n"
+                end
+                unwritten_verse.shift
+            else
+                @handwritten_text << "#{verse}\n\n" unless /^Verse/ === verse
+            end
         end
 
+        @handwritten_text
+    end
+
+    private
         # define os acordes conhecidos
         def bib
             [
@@ -58,6 +62,28 @@ class Version < ApplicationRecord
                 ['G'],
                 ['G#', 'Ab']
             ]
+        end
+
+        # transforma o texto inserido em dados estruturados que serao convertidos em strings de registro
+        def default_behavior
+            song_parser(self.songparts)
+
+            self.songstruct = @song_structure.to_s
+            self.songparts = @song_partitions.to_s.gsub("\\r", "").gsub("\\n", "\n")
+            self.partsstructs = @partitions_structure.to_s
+        end
+
+        # transforma as strings de registro em dados estruturados
+        def reverse_engineering
+            @song_structure = self.songstruct.gsub(/[\[\]\"]/, "").split(", ")
+            @partitions_structure = self.partsstructs.gsub(/[{}\"]/, "").split("], ").map{
+                |h| h1,h2 = h.split("=>[");
+                {h1 => h2.gsub("]", "").split(", ")}
+            }.reduce(:merge)
+            @song_partitions = self.songparts.gsub(/[{}\"]/, "").split("], ").map{
+                |h| h1,h2 = h.split("=>[");
+                {h1 => h2.gsub("]", "").split("\n, ")}
+            }.reduce(:merge)
         end
 
         # le um verso de acordes e o transforma em uma hash com as posicoes dos acordes

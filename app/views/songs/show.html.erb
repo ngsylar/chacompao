@@ -8,8 +8,8 @@
 </p>
 <br/>
 
-<h3>Minhas cifras</h3>
-<%= link_to 'Criar nova cifra', edit_song_path(@song) %>
+<h3>Minhas cifras
+<%= link_to '+', new_version_path(ref_song: @song.id) %></h3>
 <table>
   <thead>
     <tr>
@@ -22,8 +22,8 @@
       <tr>
         <td><%= link_to version.title, version %></td>
         <td>(<%= version.key %>)</td>
-        <td><%= link_to 'Edit', edit_version_path(version) %></td>
-        <td><%= link_to 'Destroy', version, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Editar', edit_version_path(version) %></td>
+        <td><%= link_to 'Excluir', version, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -37,7 +37,9 @@
       <th>Nome</th>
       <th>Criador</th>
       <th>Tom</th>
-      <th colspan="2"></th>
+      <% if current_user.role == "administrator" %>
+        <th colspan="2"></th>
+      <% end %>
     </tr>
   </thead>
 
@@ -47,8 +49,10 @@
         <td><%= link_to version.title, version %></td>
         <td><%= User.find(version.user_id).full_name %></td>
         <td><%= version.key %></td>
-        <td><%= link_to 'Edit', edit_version_path(version) %></td>
-        <td><%= link_to 'Destroy', version, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if current_user.role == "administrator" %>
+          <td><%= link_to 'Editar', edit_version_path(version) %></td>
+          <td><%= link_to 'Excluir', version, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

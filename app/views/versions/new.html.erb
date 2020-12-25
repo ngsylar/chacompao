@@ -1,5 +1,6 @@
-<h1>New Version</h1>
+<h2>Criar nova cifra</h2>
+<h3><%= @song.author %> - <%= @song.title %></h3>
 
-<%= render 'form', version: @version %>
+<%= render 'form_new', version: @version %>
 
-<%= link_to 'Back', versions_path %>
+<%= link_to 'voltar', @song %>

@@ -1,0 +1,35 @@
+<%= form_with(model: version, local: true) do |form| %>
+  <% if version.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(version.errors.count, "error") %> prohibited this version from being saved:</h2>
+
+      <ul>
+        <% version.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.hidden_field :song_id, value: @song.id %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+
+  <div class="field">
+    <%= form.label :title, "Nome da versão" %><br/>
+    <%= form.text_field :title, size: 78, value: "#{current_user.full_name}'s version" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :key, "Tom" %><br/>
+    <%= form.text_field :key, value: @default_key %>
+  </div>
+
+  <div class="field">
+    <%= form.label :songparts, "Cifra" %><br/>
+    <%= form.text_area :songparts, cols: 80, rows: 20, value: @default_text %>
+  </div>
+
+  <div class="actions">
+    <br/><%= form.submit "Enviar" %>
+  </div>
+<% end %>
