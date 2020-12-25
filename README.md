@@ -1,24 +1,13 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Pendencias:
 
-Things you may want to cover:
+* Editar edit de versões
 
-* Ruby version
+* Editar index de versões para mostrar "minhas versões"
 
-* System dependencies
+* Criar favoritos de versões
 
-* Configuration
+* Adicionar ordenamento de lista
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Adicionar mecanismo de busca
