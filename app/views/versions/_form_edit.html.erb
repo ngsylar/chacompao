@@ -12,38 +12,18 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :song_id %>
-    <%= form.text_field :song_id %>
+    <%= form.label :title, "Nome da versão" %><br/>
+    <%= form.text_field :title, size: 78 %>
   </div>
 
   <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div class="field">
-    <%= form.label :key %>
+    <%= form.label :key, "Tom" %><br/>
     <%= form.text_field :key %>
   </div>
 
   <div class="field">
-    <%= form.label :songstruct %>
-    <%= form.text_area :songstruct %>
-  </div>
-
-  <div class="field">
-    <%= form.label :songparts %>
-    <%= form.text_area :songparts %>
-  </div>
-
-  <div class="field">
-    <%= form.label :partsstructs %>
-    <%= form.text_area :partsstructs %>
+    <%= form.label :songparts, "Cifra" %><br/>
+    <%= form.text_area :songparts, cols: 80, rows: 20, value: @default_text %>
   </div>
 
   <div class="actions">

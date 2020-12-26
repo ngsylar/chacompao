@@ -4,7 +4,7 @@ class VersionsController < ApplicationController
   # GET /versions
   # GET /versions.json
   def index
-    @versions = Version.all
+    @versions = Version.where(user_id: current_user.id)
   end
 
   # GET /versions/1
@@ -27,6 +27,8 @@ class VersionsController < ApplicationController
 
   # GET /versions/1/edit
   def edit
+    @song = Song.find(@version.song_id)
+    @default_text = @version.handwrite
   end
 
   # POST /versions
@@ -52,8 +54,12 @@ class VersionsController < ApplicationController
   # PATCH/PUT /versions/1
   # PATCH/PUT /versions/1.json
   def update
+    mandatory_params = {
+      songstruct: nil,
+      partsstructs: nil
+    }
     respond_to do |format|
-      if @version.update(version_params)
+      if @version.update(version_params.merge(mandatory_params))
         format.html { redirect_to @version, notice: 'Version was successfully updated.' }
         format.json { render :show, status: :ok, location: @version }
       else
@@ -68,7 +74,7 @@ class VersionsController < ApplicationController
   def destroy
     @version.destroy
     respond_to do |format|
-      format.html { redirect_to versions_url, notice: 'Version was successfully destroyed.' }
+      format.html { redirect_to request.referrer, notice: 'Version was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

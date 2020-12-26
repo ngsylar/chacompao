@@ -4,6 +4,7 @@ class Version < ApplicationRecord
     belongs_to :user
 
     before_create :default_behavior
+    before_update :default_behavior
 
     # retorna os dados de forma apresentavel ao usuario
     def transcribe
