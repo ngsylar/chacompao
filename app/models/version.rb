@@ -47,12 +47,29 @@ class Version < ApplicationRecord
     end
 
     # retorna a cifra com uma nova tonalidade
-    def change_key (key_change, song_partitions = self.songparts)
-        song_partitions = song_partitions.to_s.gsub("\\r", "").gsub("\\n", "\n")
+    def change_key (key_change)
+        song_partitions = self.songparts.to_s.gsub("\\r", "").gsub("\\n", "\n")
         song_parser(handwrite(song_partitions), key_change)
         
         song_partitions = @song_partitions.to_s.gsub("\\r", "").gsub("\\n", "\n")
         transcribe(song_partitions)
+    end
+
+    # informacao de tonalidade
+    def change_keyname (key_change, token = self.key)
+        if token
+            atoms = token.split(/([ABCDEFG][#b]*)/).delete_if{|token| token.empty?}
+            bib.each_with_index do |chord, i|
+                key_change -= 12 if (key_change+i) > 11
+                key_change += 12 if (key_change+i) < 0
+                if atoms[0] == chord.first
+                    atoms[0] = bib[key_change+i].first
+                    break
+                end
+            end
+            token = atoms.join
+        end
+        token
     end
 
     private
@@ -84,7 +101,7 @@ class Version < ApplicationRecord
         end
 
         # transforma as strings de registro em dados estruturados
-        def reverse_engineering (song_partitions = self.songparts)
+        def reverse_engineering (song_partitions)
             @song_structure = self.songstruct.gsub(/[\[\]\"]/, "").split(", ")
             @partitions_structure = self.partsstructs.gsub(/[{}\"]/, "").split("], ").map{
                 |h| h1,h2 = h.split("=>[");

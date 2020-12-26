@@ -13,7 +13,7 @@
   <% end %><br/>
   <strong>Tom:</strong>
   <%= link_to '–', url_for(key_change: '-1') %>
-  <span class="boldred"><%= @version.key %></span>
+  <span class="boldred"><%= @version.change_keyname(@key) %></span>
   <%= link_to '+', url_for(key_change: '1') %>
 </p>
 
@@ -33,6 +33,7 @@
         <span class="lyrics"><%= line.delete_prefix("L") %></span>
       <% end %>
     <% end %>
+
   <% else %>
     <% @version.transcribe.lines.each_with_index do |line, i| %>
       <% if /:\s*\n$/ === line %>

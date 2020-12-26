@@ -1,5 +1,6 @@
 class VersionsController < ApplicationController
   before_action :set_version, only: [:show, :edit, :update, :destroy]
+  @@key = 0
 
   # GET /versions
   # GET /versions.json
@@ -16,7 +17,17 @@ class VersionsController < ApplicationController
   def show
     @song = Song.find(@version.song_id)
     @user = User.find(@version.user_id)
-    @key = params[:key_change].to_i
+    
+    key_change = params[:key_change].to_i
+    if key_change == 0
+      @@key = 0
+      @key = 0
+    else
+      @@key -= 12 if @@key > 11
+      @@key += 12 if @@key < 0
+      @@key += key_change
+      @key = @@key
+    end
   end
 
   # GET /versions/new
