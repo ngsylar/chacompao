@@ -4,7 +4,11 @@ class VersionsController < ApplicationController
   # GET /versions
   # GET /versions.json
   def index
-    @versions = Version.where(user_id: current_user.id)
+    if current_user.role == "administrator"
+      @versions = Version.all
+    else
+      @versions = Version.where(user_id: current_user.id)
+    end
   end
 
   # GET /versions/1
