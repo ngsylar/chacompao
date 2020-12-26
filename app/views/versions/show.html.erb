@@ -12,7 +12,9 @@
     <strong><%= @version.title %></strong> por <strong><%= @user.full_name %></strong><br/>
   <% end %><br/>
   <strong>Tom:</strong>
+  <%= link_to '–', url_for(key_change: '-1') %>
   <span class="boldred"><%= @version.key %></span>
+  <%= link_to '+', url_for(key_change: '1') %>
 </p>
 
 <% if current_user.id == @user.id %>
@@ -21,13 +23,25 @@
 <%= link_to 'Ver outras versões', @song %><br/><br/>
 
 <p class="text">
-  <% @version.transcribe.lines.each_with_index do |line, i| %>
-    <% if /:\s*\n$/ === line %>
-      <span class="verse"><%= line %></span><br/>
-    <% elsif line[0] == "C" %>
-      <span class="chords"><%= line.delete_prefix("C") %></span>
-    <% else %>
-      <span class="lyrics"><%= line.delete_prefix("L") %></span>
+  <% if @key != 0 %>
+    <% @version.change_key(@key).lines.each_with_index do |line, i| %>
+      <% if /:\s*\n$/ === line %>
+        <span class="verse"><%= line %></span><br/>
+      <% elsif line[0] == "C" %>
+        <span class="chords"><%= line.delete_prefix("C") %></span>
+      <% else %>
+        <span class="lyrics"><%= line.delete_prefix("L") %></span>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% @version.transcribe.lines.each_with_index do |line, i| %>
+      <% if /:\s*\n$/ === line %>
+        <span class="verse"><%= line %></span><br/>
+      <% elsif line[0] == "C" %>
+        <span class="chords"><%= line.delete_prefix("C") %></span>
+      <% else %>
+        <span class="lyrics"><%= line.delete_prefix("L") %></span>
+      <% end %>
     <% end %>
   <% end %>
 </p>

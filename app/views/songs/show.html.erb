@@ -1,12 +1,16 @@
 <p id="notice"></p>
 
 <p>
-  <h2><% if @song.number %>
-    <%= "#{@song.number} - " %>
-  <% end %><%= @song.title %></h2>
-  <h3><%= @song.author %></h3>
-  <strong><%= link_to "Cifra Padrão", @def_version %>
-  (<%= @def_version.key %>)</strong>
+  <h2>
+    <% if @song.number %>
+      <%= "#{@song.number} - " %>
+    <% end %>
+    <%= @song.title %>
+    <% if !@song.author.empty? %>
+      <%= "(#{@song.author})" %>
+    <% end %>
+  </h2>
+  <%= link_to "Cifra Padrão", @def_version %>(<%= @def_version.key %>)
 </p>
 <br/>
 

@@ -16,6 +16,7 @@ class VersionsController < ApplicationController
   def show
     @song = Song.find(@version.song_id)
     @user = User.find(@version.user_id)
+    @key = params[:key_change].to_i
   end
 
   # GET /versions/new

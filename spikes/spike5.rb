@@ -168,15 +168,17 @@ class Song
             tuned_line = line.keys.zip(tuned_chords)
         
             # faz correcao de espacamento
-            pred_chord_limit = -1
+            pred_chord = nil
             tuned_line.map! do |chord|
-                if chord.first <= pred_chord_limit
-                    pred_chord_limit += 1
-                    [pred_chord_limit, chord.last]
+                if (pred_chord != nil) && ((pred_chord.first + pred_chord.last.size) >= chord.first)
+                    new_chord_first = pred_chord.first + pred_chord.last.size + 1
+                    new_chord = [new_chord_first, chord.last]
+                    pred_chord = new_chord
                 else
-                    pred_chord_limit = chord.first + chord.last.size
-                    chord
+                    new_chord = chord
+                    pred_chord = new_chord
                 end
+                new_chord
             end
 
             # insere linha transposta no verso
@@ -342,7 +344,7 @@ print "\n"
 p song_inst.partitions
 print "\n"
 
-song_inst.change_tone(2)
+song_inst.change_tone(1)
 p song_inst.partitions
 print "\n"
 p song_inst.structure

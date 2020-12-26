@@ -7,9 +7,9 @@ class Version < ApplicationRecord
     before_update :default_behavior
 
     # retorna os dados de forma apresentavel ao usuario
-    def transcribe
-        reverse_engineering
-
+    def transcribe (song_partitions = self.songparts)
+        reverse_engineering(song_partitions)
+        
         @transcribed_text = ""
         @song_structure.each do |verse|
             types = @partitions_structure[verse].map{|type| type}
@@ -26,8 +26,8 @@ class Version < ApplicationRecord
     end
 
     # retorna a cifra como um texto editavel
-    def handwrite
-        reverse_engineering
+    def handwrite (song_partitions = self.songparts)
+        reverse_engineering(song_partitions)
 
         @handwritten_text = ""
         unwritten_verse = @song_structure.uniq
@@ -44,6 +44,15 @@ class Version < ApplicationRecord
         end
 
         @handwritten_text
+    end
+
+    # retorna a cifra com uma nova tonalidade
+    def change_key (key_change, song_partitions = self.songparts)
+        song_partitions = song_partitions.to_s.gsub("\\r", "").gsub("\\n", "\n")
+        song_parser(handwrite(song_partitions), key_change)
+        
+        song_partitions = @song_partitions.to_s.gsub("\\r", "").gsub("\\n", "\n")
+        transcribe(song_partitions)
     end
 
     private
@@ -75,13 +84,13 @@ class Version < ApplicationRecord
         end
 
         # transforma as strings de registro em dados estruturados
-        def reverse_engineering
+        def reverse_engineering (song_partitions = self.songparts)
             @song_structure = self.songstruct.gsub(/[\[\]\"]/, "").split(", ")
             @partitions_structure = self.partsstructs.gsub(/[{}\"]/, "").split("], ").map{
                 |h| h1,h2 = h.split("=>[");
                 {h1 => h2.gsub("]", "").split(", ")}
             }.reduce(:merge)
-            @song_partitions = self.songparts.gsub(/[{}\"]/, "").split("], ").map{
+            @song_partitions = song_partitions.gsub(/[{}\"]/, "").split("], ").map{
                 |h| h1,h2 = h.split("=>[");
                 {h1 => h2.gsub("]", "").split("\n, ")}
             }.reduce(:merge)
@@ -228,15 +237,17 @@ class Version < ApplicationRecord
                 tuned_line = line.keys.zip(tuned_chords)
             
                 # faz correcao de espacamento
-                pred_chord_limit = -1
+                pred_chord = nil
                 tuned_line.map! do |chord|
-                    if chord.first <= pred_chord_limit
-                        pred_chord_limit += 1
-                        [pred_chord_limit, chord.last]
+                    if (pred_chord != nil) && ((pred_chord.first + pred_chord.last.size) >= chord.first)
+                        new_chord_first = pred_chord.first + pred_chord.last.size + 1
+                        new_chord = [new_chord_first, chord.last]
+                        pred_chord = new_chord
                     else
-                        pred_chord_limit = chord.first + chord.last.size
-                        chord
+                        new_chord = chord
+                        pred_chord = new_chord
                     end
+                    new_chord
                 end
 
                 # insere linha transposta no verso
@@ -249,14 +260,14 @@ class Version < ApplicationRecord
         end
 
         # muda a tonalidade da musica
-        def change_tone (key_change=0)
+        def change_tone (key_change)
             @song_structure.uniq.each do |verse_name|
                 change_verse_tone(verse_name, key_change)
             end
         end
 
         # cria uma estrutura de dados para a musica
-        def song_parser (song_text)
+        def song_parser (song_text, key_change=0)
             # faz correcao de final de musica
             text_end = song_text[(song_text.size - 2), 2]
             song_text << "\n\n" unless text_end == "\n\n"
@@ -328,6 +339,6 @@ class Version < ApplicationRecord
             end
 
             # cria a estrutura dos versos
-            change_tone
+            change_tone(key_change)
         end
 end
