@@ -9,5 +9,3 @@ Pendencias:
 * Criar favoritos de versões
 
 * Adicionar mecanismo de busca
-
-* Limpar parametros ao atualizar página

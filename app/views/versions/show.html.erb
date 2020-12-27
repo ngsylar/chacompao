@@ -12,9 +12,14 @@
     <strong><%= @version.title %></strong> por <strong><%= @user.full_name %></strong><br/>
   <% end %><br/>
   <strong>Tom:</strong>
-  <%= link_to '–', url_for(key_change: '-1') %>
+  <% if @on_click == 'on' %>
+    <% @on_click = 'off' %>
+  <% elsif @on_click == 'off' %>
+    <% @on_click = 'on' %>
+  <% end %>
+  <%= link_to '–', url_for(key_change: '-1', on_click: @on_click) %>
   <span class="boldred"><%= @version.change_keyname(@key) %></span>
-  <%= link_to '+', url_for(key_change: '1') %>
+  <%= link_to '+', url_for(key_change: '1', on_click: @on_click) %>
 </p>
 
 <% if current_user.id == @user.id %>
