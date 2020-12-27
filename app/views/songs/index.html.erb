@@ -1,6 +1,10 @@
 <p id="notice"></p>
+<p><%= link_to 'Início', "home/index" %> > Músicas</p>
 
-<h1>Músicas</h1>
+<h1>Músicas
+<% if current_user.role == "administrator" %>
+  <%= link_to '+', new_song_path %><br/><br>
+<% end %></h1>
 
 <table>
   <thead>
@@ -35,9 +39,5 @@
 </table>
 
 <br>
-
-<% if current_user.role == "administrator" %>
-  <%= link_to 'Registrar uma música', new_song_path %><br/><br>
-<% end %>
 
 <%= link_to 'Voltar', "home/index" %>

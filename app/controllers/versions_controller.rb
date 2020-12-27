@@ -22,10 +22,12 @@ class VersionsController < ApplicationController
     key_change = params[:key_change].to_i
     @on_click = params[:on_click].to_s
     @clicked = @@on_click
+
     if key_change == 0
       @@key = 0
       @key = 0
       @on_click = @@on_click
+
     else
       @@on_click = @on_click
       if @on_click != @clicked
