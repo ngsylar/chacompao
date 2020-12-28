@@ -1,9 +1,16 @@
 usados:
     https://pt.stackoverflow.com/questions/270676/como-adicionar-rolagem-automática-em-uma-div-html
     https://stackoverflow.com/questions/22885702/html-for-the-pause-symbol-in-audio-and-video-control
+    https://material.io/resources/icons/?style=baseline
+    https://google.github.io/material-design-icons/
     https://stackoverflow.com/questions/3714628/jquery-get-the-location-of-an-element-relative-to-window
     https://stackoverflow.com/questions/4860244/how-to-delete-px-from-245px/4860249
+    https://stackoverflow.com/questions/50555002/media-queries-ignored-in-ruby-on-rails
 
 descartados:
     https://www.geeksforgeeks.org/how-to-scroll-automatically-to-the-bottom-of-the-page-using-jquery/
     https://stackoverflow.com/questions/14310081/how-to-auto-scroll-a-div-at-configurable-speed
+
+lendo:
+    https://pt.stackoverflow.com/questions/5271/font-size-responsivo-conforme-o-tamanho-da-tela
+    https://www.youtube.com/watch?v=AltqAPZzAqo

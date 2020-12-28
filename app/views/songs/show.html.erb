@@ -14,16 +14,16 @@
       <%= "(#{@song.author})" %>
     <% end %>
   </h2>
-  <%= link_to "Cifra Padrão", @def_version %>(<%= @def_version.key %>)
+  <i class="material-icons md-18">grading</i> <%= link_to "Cifra Padrão", @def_version %> (<%= @def_version.key %>)
 </p>
 <br/>
 
 <h3>Minhas cifras
-<%= link_to '+', new_version_path(ref_song: @song.id) %></h3>
+<%= link_to new_version_path(ref_song: @song.id) do %><i class="material-icons md-18">post_add</i><% end %></h3>
 <table>
   <thead>
     <tr>
-      <th colspan="4"></th>
+      <th colspan="3"></th>
     </tr>
   </thead>
 
@@ -32,8 +32,9 @@
       <tr>
         <td><%= link_to version.title, version %></td>
         <td>(<%= version.key %>)</td>
-        <td><%= link_to 'Editar', edit_version_path(version) %></td>
-        <td><%= link_to 'Excluir', version, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to edit_version_path(version) do %><i class="material-icons md-18">edit</i><% end %>
+        <%= link_to version, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %>
+        <i class="material-icons md-18">delete</i><% end %></td>
       </tr>
     <% end %>
   </tbody>
@@ -44,10 +45,9 @@
 <table>
   <thead>
     <tr>
-      <th>Nome</th>
-      <th>Criador</th>
-      <th>Tom</th>
       <% if current_user.role == "administrator" %>
+        <th colspan="3"></th>
+      <% else %>
         <th colspan="2"></th>
       <% end %>
     </tr>
@@ -56,12 +56,12 @@
   <tbody>
     <% @other_vers.each do |version| %>
       <tr>
-        <td><%= link_to version.title, version %></td>
-        <td><%= User.find(version.user_id).full_name %></td>
-        <td><%= version.key %></td>
+        <td><%= link_to version.title, version %>
+        <br/>por <%= User.find(version.user_id).full_name %></td>
+        <td>(<%= version.key %>)</td>
         <% if current_user.role == "administrator" %>
-          <td><%= link_to 'Editar', edit_version_path(version) %></td>
-          <td><%= link_to 'Excluir', version, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to edit_version_path(version) do %><i class="material-icons md-18">edit</i><% end %>
+          <%= link_to version, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %><i class="material-icons md-18">delete</i><% end %></td>
         <% end %>
       </tr>
     <% end %>

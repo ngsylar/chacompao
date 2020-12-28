@@ -15,15 +15,18 @@
   <% if (@version.title != "default") && (@user.role != "administrator") %>
     <strong><%= @version.title %></strong> por <strong><%= @user.full_name %></strong><br/>
   <% end %><br/>
-  <strong>Tom:</strong>
   <% if @on_click == 'on' %>
     <% @on_click = 'off' %>
   <% elsif @on_click == 'off' %>
     <% @on_click = 'on' %>
   <% end %>
-  <%= link_to '–', url_for(key_change: '-1', on_click: @on_click) %>
+
+  <strong>Tom:</strong>
+  <%= link_to url_for(key_change: '-1', on_click: @on_click) do %>
+    <i class="material-icons md-18">remove</i><% end %>
   <span class="boldred"><%= @version.change_keyname(@key) %></span>
-  <%= link_to '+', url_for(key_change: '1', on_click: @on_click) %>
+  <%= link_to url_for(key_change: '1', on_click: @on_click) do %>
+    <i class="material-icons md-18">add</i><% end %>
 </p>
 
 <% if current_user.id == @user.id %>

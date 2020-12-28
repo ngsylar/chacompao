@@ -8,11 +8,9 @@
     <tr>
       <th>nº</th>
       <th>Música</th>
-      <th>Artista</th>
-      <th>Categoria</th>
       <th>Cifra</th>
       <th>Tom</th>
-      <th colspan="2"></th>
+      <th colspan="1"></th>
     </tr>
   </thead>
 
@@ -21,13 +19,14 @@
       <% song = Song.find(version.song_id) %>
       <tr>
         <td><%= song.number %></td>
-        <td><%= song.title %></td>
-        <td><%= song.author %></td>
-        <td><%= song.category %></td>
+        <td><%= song.title %>
+        <% if !song.author.empty? %>
+          <br/>(<%= song.author %>)<% end %></td>
         <td><%= link_to version.title, version %></td>
-        <td><%= version.key %></td>
-        <td><%= link_to 'Editar', edit_version_path(version) %></td>
-        <td><%= link_to 'Excluir', version, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>(<%= version.key %>)</td>
+        <td><%= link_to edit_version_path(version) do %><i class="material-icons">edit</i><% end %>
+        <%= link_to version, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %>
+        <i class="material-icons">delete</i><% end %></td>
       </tr>
     <% end %>
   </tbody>

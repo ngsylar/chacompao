@@ -53,7 +53,7 @@ class SongsController < ApplicationController
         }
         default_version = Version.create!(version_params)
 
-        format.html { redirect_to default_version, notice: 'Song was successfully created.' }
+        format.html { redirect_to default_version, notice: 'Música enviada com sucesso.' }
         format.json { render :show, status: :created, location: @song }
       else
         format.html { render :new }
@@ -67,7 +67,7 @@ class SongsController < ApplicationController
   def update
     respond_to do |format|
       if @song.update(song_params)
-        format.html { redirect_to @song, notice: 'Song was successfully updated.' }
+        format.html { redirect_to @song, notice: 'Informações atualizadas com sucesso.' }
         format.json { render :show, status: :ok, location: @song }
       else
         format.html { render :edit }
@@ -81,7 +81,7 @@ class SongsController < ApplicationController
   def destroy
     @song.destroy
     respond_to do |format|
-      format.html { redirect_to songs_url, notice: 'Song was successfully destroyed.' }
+      format.html { redirect_to songs_url, notice: 'A música foi excluída.' }
       format.json { head :no_content }
     end
   end

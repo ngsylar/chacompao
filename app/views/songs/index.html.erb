@@ -3,20 +3,15 @@
 
 <h1>Músicas
 <% if current_user.role == "administrator" %>
-  <%= link_to '+', new_song_path %><br/><br>
-<% end %></h1>
+  <%= link_to new_song_path do %><i class="material-icons">post_add</i><% end %>
+<br/><br/><% end %></h1>
 
 <table>
   <thead>
     <tr>
       <th>nº</th>
-      <th>Título</th>
-      <th>Artista</th>
-      <th>Categoria</th>
-      <th>Cifras</th>
-      <% if current_user.role == "administrator" %>
-        <th colspan="2"></th>
-      <% end %>
+      <th>Música</th>
+      <th></th>
     </tr>
   </thead>
 
@@ -25,14 +20,21 @@
       <tr>
         <td><%= song.number %></td>
         <% default_version = Version.find_by(song_id: song.id, title: "default") %>
-        <td><%= link_to song.title, default_version %></td>
-        <td><%= song.author %></td>
-        <td><%= song.category %></td>
-        <td><%= link_to 'Ver todas', song %></td>
-        <% if current_user.role == "administrator" %>
-          <td><%= link_to 'Editar', edit_song_path(song) %></td>
-          <td><%= link_to 'Excluir', song, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to song.title, default_version %>
+        <% if !song.author.empty? %>
+          <br/>(<%= song.author %>)
         <% end %>
+        <% if !song.category.empty? %>
+          <br/>(<%= song.category %>)
+        <% end %></td>
+        
+        <td><%= link_to song do %><i class="material-icons">library_music</i><% end %>
+        <% if current_user.role == "administrator" %>
+          <%= link_to edit_song_path(song) do %><i class="material-icons">edit</i><% end %>
+          <%= link_to song, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %>
+            <i class="material-icons">delete</i>
+          <% end %>
+        <% end %></td>
       </tr>
     <% end %>
   </tbody>

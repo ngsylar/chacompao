@@ -16,7 +16,7 @@
 
   <div class="field">
     <%= form.label :title, "Nome da versão" %><br/>
-    <%= form.text_field :title, size: 78, value: "#{current_user.full_name}'s version" %>
+    <%= form.text_field :title, value: "#{current_user.full_name}'s version" %>
   </div>
 
   <div class="field">
@@ -26,7 +26,7 @@
 
   <div class="field">
     <%= form.label :songparts, "Cifra" %><br/>
-    <%= form.text_area :songparts, cols: 80, rows: 20, value: @default_text %>
+    <%= form.text_area :songparts, rows: 14, value: @default_text %>
   </div>
 
   <div class="actions">

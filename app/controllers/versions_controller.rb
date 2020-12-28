@@ -67,11 +67,11 @@ class VersionsController < ApplicationController
 
     respond_to do |format|
       if @version.save
-        format.html { redirect_to @version, notice: 'Version was successfully created.' }
-        format.json { render :show, status: :created, location: @version }
+        format.html { redirect_to @version, notice: 'Cifra enviada com sucesso.' }
+        # format.json { render :show, status: :created, location: @version }
       else
         format.html { render :new }
-        format.json { render json: @version.errors, status: :unprocessable_entity }
+        # format.json { render json: @version.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -85,11 +85,11 @@ class VersionsController < ApplicationController
     }
     respond_to do |format|
       if @version.update(version_params.merge(mandatory_params))
-        format.html { redirect_to @version, notice: 'Version was successfully updated.' }
-        format.json { render :show, status: :ok, location: @version }
+        format.html { redirect_to @version, notice: 'A cifra foi salva.' }
+        # format.json { render :show, status: :ok, location: @version }
       else
         format.html { render :edit }
-        format.json { render json: @version.errors, status: :unprocessable_entity }
+        # format.json { render json: @version.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -99,8 +99,8 @@ class VersionsController < ApplicationController
   def destroy
     @version.destroy
     respond_to do |format|
-      format.html { redirect_to request.referrer, notice: 'Version was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html { redirect_to request.referrer, notice: 'Cifra excluída.' }
+      # format.json { head :no_content }
     end
   end
 
