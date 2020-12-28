@@ -15,6 +15,13 @@
       #backtop {
         right: 0px;
       }
+      #logpos {
+        position: fixed;
+        top: 45px;
+        right: 10px;
+        color: #333;
+      }
+
     </style>
   </head>
 <body>
@@ -22,6 +29,7 @@
   <button type="button" id="play"><i class="material-icons">play_arrow</i></button>
   <button type="button" id="pause"><i class="material-icons">pause</i></button>
   <button type="button" id="backtop"><i class="material-icons">replay</i></button>
+  <div id="logpos"></div>
 
   <div id="chordstart">
     <h3>Epica - Cry For The Moon</h3>
@@ -357,15 +365,26 @@
   <script type="text/javascript">
     // let scrollspeed = 400000;
 
+    function logpos(txt) {
+      $("#logpos").html("location : <b>" + txt + "</b> px")
+    }
+    $(function() {
+      var target = $("#chordend").offset().top;
+      logpos(target - $(window).scrollTop());
+      $(window).scroll(function() { // when window is scrolled
+        logpos(target - $(window).scrollTop());
+      });
+    });
+
     $("#play").click(function() {
-      var target = $("#chordend").offset().top;   // Captura o elemento que desejamos ir
-      
+      var target = $("#chordend").offset().top; // Captura o elemento que desejamos ir
       var dist = target - $(window).scrollTop();
-      var scrollspeed = dist;
+      
+      var scrollspeed = parseInt(dist, 10) * 80;
       
       $('html, body').animate({
-          scrollTop: target                       // Captura a posição do elemento
-      }, scrollspeed);                            // Tempo de animação em milissegundos
+          scrollTop: target // Captura a posição do elemento
+      }, scrollspeed); // Tempo de animação em milissegundos
     });
 
     $("#pause").click(function() {
