@@ -2,14 +2,20 @@
   <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-      #pause, #play, #backtop {
+      #pause, #play, #backtop, #fastfor, #fastre {
         position:fixed;
         width: 45px;
       }
+      #fastre {
+        right: 200px;
+      }
       #play {
-        right: 100px;
+        right: 150px;
       }
       #pause {
+        right: 100px;
+      }
+      #fastfor {
         right: 50px;
       }
       #backtop {
@@ -21,13 +27,14 @@
         right: 10px;
         color: #333;
       }
-
     </style>
   </head>
 <body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <button type="button" id="fastre"><i class="material-icons">fast_rewind</i></button>
   <button type="button" id="play"><i class="material-icons">play_arrow</i></button>
   <button type="button" id="pause"><i class="material-icons">pause</i></button>
+  <button type="button" id="fastfor"><i class="material-icons">fast_forward</i></button>
   <button type="button" id="backtop"><i class="material-icons">replay</i></button>
   <div id="logpos"></div>
 
