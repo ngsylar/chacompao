@@ -16,6 +16,11 @@
 
 p.notice {
     color: green;
+    font-weight: bold;
+}
+p.alert {
+    color: red;
+    font-weight: bold;
 }
 p.text {
     font-family: monospace;

@@ -34,7 +34,12 @@ div.actions {
   margin-bottom: 10px; }
 
 #notice {
+  font-weight: bold;
   color: green; }
+
+#alert {
+  font-weight: bold;
+  color: red; }
 
 .field_with_errors {
   padding: 2px;

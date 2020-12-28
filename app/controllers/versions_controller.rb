@@ -59,6 +59,7 @@ class VersionsController < ApplicationController
   # POST /versions
   # POST /versions.json
   def create
+    song_id = version_params["song_id"]
     mandatory_params = {
       # song_id: @song.id,
       user_id: current_user.id
@@ -70,7 +71,7 @@ class VersionsController < ApplicationController
         format.html { redirect_to @version, notice: 'Cifra enviada com sucesso.' }
         # format.json { render :show, status: :created, location: @version }
       else
-        format.html { render :new }
+        format.html { redirect_to Song.find(song_id), alert: 'A cifra não pôde ser enviada!' }
         # format.json { render json: @version.errors, status: :unprocessable_entity }
       end
     end
