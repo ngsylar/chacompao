@@ -6,6 +6,9 @@ usados:
     https://stackoverflow.com/questions/3714628/jquery-get-the-location-of-an-element-relative-to-window
     https://stackoverflow.com/questions/4860244/how-to-delete-px-from-245px/4860249
     https://stackoverflow.com/questions/50555002/media-queries-ignored-in-ruby-on-rails
+    https://stackoverflow.com/questions/17600093/rails-javascript-not-loading-after-clicking-through-link-to-helper
+    https://developer.mozilla.org/pt-BR/docs/Web/API/Element/classList
+    https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/if...else
 
 descartados:
     https://www.geeksforgeeks.org/how-to-scroll-automatically-to-the-bottom-of-the-page-using-jquery/
@@ -14,3 +17,4 @@ descartados:
 lendo:
     https://pt.stackoverflow.com/questions/5271/font-size-responsivo-conforme-o-tamanho-da-tela
     https://www.youtube.com/watch?v=AltqAPZzAqo
+    https://www.alura.com.br/artigos/entenda-diferenca-entre-var-let-e-const-no-javascript

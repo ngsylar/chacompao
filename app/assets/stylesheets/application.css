@@ -66,6 +66,6 @@ div.scplayer {
 .scbtactive {
     z-index: 1;
 }
-#scpause, #scplay, #sctop, #scfast, #scslow, #scloc {
+#scpause, #scplay, #sctop, #scfast, #scslow, #scloc, #scspeed {
     position: relative;
 }

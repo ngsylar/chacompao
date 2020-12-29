@@ -4,7 +4,7 @@ Pendencias:
 
 * Adicionar auto rolagem (ok)
 
-* Corrigir escala de telas portáteis
+* Corrigir escala de telas portáteis (ok)
 
 * Adicionar ordenamento de lista
 

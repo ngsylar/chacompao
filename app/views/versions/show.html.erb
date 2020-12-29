@@ -8,15 +8,16 @@
     <button type="button" id="scpause"><i class="material-icons">pause</i></button>
   </div> <button type="button" id="scfast"><i class="material-icons">fast_forward</i></button>
   <button type="button" id="sctop"><i class="material-icons">replay</i></button>
-  <br/><div id="scloc"></div>
+  <i class="material-icons">speed</i><sup><div class="sccontrol" id="scspeed"></div></sup>
+  <%# <div id="scloc"></div> %>
 </div>
 
+<div id="chordstart">
 <p><p id="notice"><% if notice %><%= notice %><% else %><br/><% end %></p>
   <%= link_to 'Início', "../home/index" %> | 
   <%= link_to 'Buscar música', songs_path %>
 </p><br/>
 
-<div id="chordstart">
 <p>
   <h2><% if @song.number %>
     <%= "#{@song.number} - " %>
@@ -79,24 +80,55 @@
 </div>
 
 <script type="text/javascript">
-  const $sccontrol_front = document.querySelector('.sccontrol_front')
-  const $sccontrol_back = document.querySelector('.sccontrol_back')
+  const $sccontrol_front = document.querySelector('.sccontrol_front');
+  const $sccontrol_back = document.querySelector('.sccontrol_back');
+  let speed_change = 80;
 
-  function scloc(txt) {
-    $("#scloc").html("location : <b>" + txt + "</b> px")
+  // function scloc(txt) {
+  //   $("#scloc").html("location : <b>" + txt + "</b> px")
+  // }
+
+  function scspeed(txt) {
+    $("#scspeed").html("<b>" + txt + "x</b>")
   }
+
   $(function() {
-    var target = $("#chordend").offset().top;
-    scloc(target - $(window).scrollTop());
-    $(window).scroll(function() { // when window is scrolled
-      scloc(target - $(window).scrollTop());
-    });
+    // var target = $("#chordend").offset().top;
+    // scloc(target - $(window).scrollTop());
+    // $(window).scroll(function() { // when window is scrolled
+    //   scloc(target - $(window).scrollTop());
+    // });
+
+    var speedometer = (170 - speed_change) / 10;
+    scspeed(parseInt(speedometer, 10));
+  });
+
+  $("#scfast").click(function() {
+    $('html, body').stop();
+    if (speed_change > 10) {
+      speed_change = speed_change - 10;
+    } else {
+      speed_change = 1;
+    }
+    var speedometer = (170 - speed_change) / 10;
+    scspeed(parseInt(speedometer, 10));
+    $("#scplay").click();
+  });
+
+  $("#scslow").click(function() {
+    $('html, body').stop();
+    if (speed_change < 160) {
+      speed_change = speed_change + 10;
+    }
+    var speedometer = (170 - speed_change) / 10;
+    scspeed(parseInt(speedometer, 10));
+    $("#scplay").click();
   });
 
   $("#scplay").click(function() {
     var target = $("#chordend").offset().top; // Captura o elemento que desejamos ir
     var dist = target - $(window).scrollTop();
-    var scrollspeed = parseInt(dist, 10) * 80;
+    var scrollspeed = parseInt(dist, 10) * speed_change;
 
     $('html, body').animate({
       scrollTop: target // Captura a posição do elemento
