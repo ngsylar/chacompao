@@ -15,7 +15,7 @@
       <%= "(#{@song.author})" %>
     <% end %>
   </h2>
-  <i class="material-icons md-18">grading</i> <%= link_to "Cifra Padrão", @def_version %> (<%= @def_version.key %>)
+  <i class="material-icons md-18">grading</i> <%= link_to "Cifra Padrão", @def_version, method: :get %> (<%= @def_version.key %>)
 </p>
 <br/>
 
@@ -31,7 +31,7 @@
   <tbody>
     <% @my_versions.each do |version| %>
       <tr>
-        <td><%= link_to version.title, version %></td>
+        <td><%= link_to version.title, version, method: :get %></td>
         <td>(<%= version.key %>)</td>
         <td><%= link_to edit_version_path(version) do %><i class="material-icons md-18">edit</i><% end %>
         <%= link_to version, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %>
@@ -57,7 +57,7 @@
   <tbody>
     <% @other_vers.each do |version| %>
       <tr>
-        <td><%= link_to version.title, version %>
+        <td><%= link_to version.title, version, method: :get %>
         <br/>por <%= User.find(version.user_id).full_name %></td>
         <td>(<%= version.key %>)</td>
         <% if current_user.role == "administrator" %>

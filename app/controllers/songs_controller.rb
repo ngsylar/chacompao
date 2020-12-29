@@ -79,6 +79,7 @@ class SongsController < ApplicationController
   # DELETE /songs/1
   # DELETE /songs/1.json
   def destroy
+    Version.where(song_id: @song.id).destroy_all
     @song.destroy
     respond_to do |format|
       format.html { redirect_to songs_url, notice: 'A música foi excluída.' }

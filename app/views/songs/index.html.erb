@@ -20,7 +20,7 @@
       <tr>
         <td><%= song.number %></td>
         <% default_version = Version.find_by(song_id: song.id, title: "default") %>
-        <td><%= link_to song.title, default_version %>
+        <td><%= link_to song.title, default_version, method: :get %>
         <% if !song.author.empty? %>
           <br/>(<%= song.author %>)
         <% end %>

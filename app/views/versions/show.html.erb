@@ -1,9 +1,22 @@
-<p id="notice"></p>
-<p>
+<div class="scplayer">
+  <br/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <button type="button" id="scslow"><i class="material-icons">fast_rewind</i></button>
+  <div class="sccontrol sccontrol_front scbtactive">
+    <button type="button" id="scplay"><i class="material-icons">play_arrow</i></button>
+  </div><div class="sccontrol sccontrol_back">
+    <button type="button" id="scpause"><i class="material-icons">pause</i></button>
+  </div> <button type="button" id="scfast"><i class="material-icons">fast_forward</i></button>
+  <button type="button" id="sctop"><i class="material-icons">replay</i></button>
+  <br/><div id="scloc"></div>
+</div>
+
+<p><p id="notice"><% if notice %><%= notice %><% else %><br/><% end %></p>
   <%= link_to 'Início', "../home/index" %> | 
   <%= link_to 'Buscar música', songs_path %>
 </p><br/>
 
+<div id="chordstart">
 <p>
   <h2><% if @song.number %>
     <%= "#{@song.number} - " %>
@@ -12,8 +25,8 @@
 </p>
 
 <p>
-  <% if (@version.title != "default") && (@user.role != "administrator") %>
-    <strong><%= @version.title %></strong> por <strong><%= @user.full_name %></strong><br/>
+  <% if @version.title != "default" %>
+    <strong><%= @version.title %></strong><br/>por <strong><%= @user.full_name %></strong><br/><br/>
   <% end %><br/>
   <% if @on_click == 'on' %>
     <% @on_click = 'off' %>
@@ -22,17 +35,18 @@
   <% end %>
 
   <strong>Tom:</strong>
-  <%= link_to url_for(key_change: '-1', on_click: @on_click) do %>
+  <%= link_to url_for(key_change: '-1', on_click: @on_click), method: :get do %>
     <i class="material-icons md-18">remove</i><% end %>
   <span class="boldred"><%= @version.change_keyname(@key) %></span>
-  <%= link_to url_for(key_change: '1', on_click: @on_click) do %>
+  <%= link_to url_for(key_change: '1', on_click: @on_click), method: :get do %>
     <i class="material-icons md-18">add</i><% end %>
 </p>
 
 <% if current_user.id == @user.id %>
   <%= link_to 'Editar cifra', edit_version_path(@version) %> | 
 <% end %>
-<%= link_to 'Ver outras versões', @song %><br/><br/>
+<%= link_to 'Adicionar cifra', new_version_path(ref_song: @song.id) %> | 
+<%= link_to 'Outras cifras', @song %><br/><br/>
 
 <p class="text">
   <% if @key != 0 %>
@@ -58,5 +72,53 @@
     <% end %>
   <% end %>
 </p>
+</div>
 
+<div id="chordend">
 <%= link_to 'Procurar outra música', songs_path %>
+</div>
+
+<script type="text/javascript">
+  const $sccontrol_front = document.querySelector('.sccontrol_front')
+  const $sccontrol_back = document.querySelector('.sccontrol_back')
+
+  function scloc(txt) {
+    $("#scloc").html("location : <b>" + txt + "</b> px")
+  }
+  $(function() {
+    var target = $("#chordend").offset().top;
+    scloc(target - $(window).scrollTop());
+    $(window).scroll(function() { // when window is scrolled
+      scloc(target - $(window).scrollTop());
+    });
+  });
+
+  $("#scplay").click(function() {
+    var target = $("#chordend").offset().top; // Captura o elemento que desejamos ir
+    var dist = target - $(window).scrollTop();
+    var scrollspeed = parseInt(dist, 10) * 80;
+
+    $('html, body').animate({
+      scrollTop: target // Captura a posição do elemento
+    }, scrollspeed); // Tempo de animação em milissegundos
+    
+    $sccontrol_front.classList.remove('scbtactive');
+    $sccontrol_back.classList.add('scbtactive');
+  });
+
+  $("#scpause").click(function() {
+    $('html, body').stop();
+
+    $sccontrol_back.classList.remove('scbtactive');
+    $sccontrol_front.classList.add('scbtactive');
+  });
+
+  $("#sctop").click(function() {
+    $('html, body').stop();
+    var target = $( $("#chordstart") );
+    $(document).scrollTop(target.offset().top);
+
+    $sccontrol_back.classList.remove('scbtactive');
+    $sccontrol_front.classList.add('scbtactive');
+  });
+</script>

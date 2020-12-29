@@ -50,3 +50,22 @@ div.field input, div.field textarea {
 .material-icons.md-24 { font-size: 24px; }
 .material-icons.md-36 { font-size: 36px; }
 .material-icons.md-48 { font-size: 48px; }
+
+/* automatic scrolling */
+div.scplayer {
+    position: fixed;
+    top: 0;
+}
+.sccontrol {
+    display: inline-block;
+    position: relative;
+}
+.sccontrol_front {
+    position: absolute;
+}
+.scbtactive {
+    z-index: 1;
+}
+#scpause, #scplay, #sctop, #scfast, #scslow, #scloc {
+    position: relative;
+}
