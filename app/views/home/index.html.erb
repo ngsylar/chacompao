@@ -1,4 +1,6 @@
+<div class="phome">
 <h1>Chá com Pão</h1>
+<br/><br/><%= image_tag("guitar_piano.png") %>
 
 <% if user_signed_in? %>
   <p><strong>Nome: </strong><%= current_user.full_name %><br/>
@@ -12,11 +14,30 @@
     <% when "commonuser" %>
       Cantor
     <% end %>
-  </p>
-  <%= link_to "Buscar música", songs_path %> | 
-  <%= link_to "Minhas cifras", versions_path %>
-  <br/><br/>
-  <%= link_to "Sair", destroy_user_session_path, method: :delete %>
+  </p><br/>
+</div>
+
+<table class="homemenu">
+  <thead><tr><th colspan="2"></th></tr></thead>
+  <tbody>
+    <tr><td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
+      <td><%= link_to "Buscar música", songs_path %></td>
+    </tr>
+    <tr><td><%= link_to versions_path do %><i class="material-icons">library_music</i><% end %></td>
+      <td><%= link_to "Minhas cifras", versions_path %></td>
+    </tr>
+    <tr><td><%= link_to versions_path do %><i class="material-icons">star</i><% end %></td>
+      <td><%= link_to "Favoritas", versions_path %></td>
+    </tr>
+    <tr><td><%= link_to edit_user_registration_path do %><i class="material-icons">person</i><% end %></td>
+      <td><%= link_to "Editar perfil", edit_user_registration_path %></td>
+    </tr>
+    <tr><td><%= link_to destroy_user_session_path, method: :delete do %>
+      <i class="material-icons">logout</i><% end %></td>
+      <td><%= link_to "Sair", destroy_user_session_path, method: :delete %></td>
+    </tr>
+  </tbody>
+</table>
 
 <% else %>
   <h3>Entre para acessar o sistema!</h3>

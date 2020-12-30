@@ -1,5 +1,7 @@
+<div class="phome">
 <h1>Chá com Pão</h1>
-<br/>
+<br/><%= image_tag("guitar_piano.png") %>
+</div><br/>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
@@ -13,15 +15,15 @@
   </div><br/>
 
   <% if devise_mapping.rememberable? %>
-    <div class="fieldcheck">
+    <div class="phome fieldcheck">
       <%= f.check_box :remember_me %>
       <%= f.label :remember_me, "Lembre-se de mim" %>
     </div>
   <% end %>
 
-  <div class="actions">
+  <div class="phome">
     <%= f.submit "Entrar" %>
-  </div><br/>
+  </div><br/><br/>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<div class="phome"><%= render "devise/shared/links" %></div>

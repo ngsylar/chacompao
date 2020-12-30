@@ -22,8 +22,15 @@ p.alert {
     color: red;
     font-weight: bold;
 }
+table.homemenu {
+    margin-left: auto;
+    margin-right: auto;
+}
 p.text {
     font-family: monospace;
+}
+div.phome {
+    text-align: center;
 }
 span.verse {
     font-weight: bolder;

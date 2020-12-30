@@ -15,12 +15,16 @@
       <%= "(#{@song.author})" %>
     <% end %>
   </h2>
-  <i class="material-icons md-18">grading</i> <%= link_to "Cifra Padrão", @def_version, method: :get %> (<%= @def_version.key %>)
+  <%= link_to @def_version, method: :get do %><i class="material-icons">check</i><% end %>
+  <%= link_to "Cifra Padrão", @def_version, method: :get %> (<%= @def_version.key %>)
+  <br/>
+  
+  <%= link_to new_version_path(ref_song: @song.id) do %><i class="material-icons">post_add</i><% end %>
+  <%= link_to "Adicionar cifra para esta música", new_version_path(ref_song: @song.id) %>
 </p>
 <br/>
 
-<h3>Minhas cifras
-<%= link_to new_version_path(ref_song: @song.id) do %><i class="material-icons md-18">post_add</i><% end %></h3>
+<h3>Minhas cifras</h3>
 <table>
   <thead>
     <tr>
@@ -31,11 +35,12 @@
   <tbody>
     <% @my_versions.each do |version| %>
       <tr>
+        <td>
+          <%= link_to version, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %><i class="material-icons">delete</i><% end %>
+          <%= link_to edit_version_path(version) do %><i class="material-icons">edit</i><% end %>
+        </td>
         <td><%= link_to version.title, version, method: :get %></td>
         <td>(<%= version.key %>)</td>
-        <td><%= link_to edit_version_path(version) do %><i class="material-icons md-18">edit</i><% end %>
-        <%= link_to version, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %>
-        <i class="material-icons md-18">delete</i><% end %></td>
       </tr>
     <% end %>
   </tbody>
@@ -46,24 +51,26 @@
 <table>
   <thead>
     <tr>
-      <% if current_user.role == "administrator" %>
-        <th colspan="3"></th>
-      <% else %>
-        <th colspan="2"></th>
-      <% end %>
+      <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @other_vers.each do |version| %>
       <tr>
+        <% if current_user.role == "administrator" %>
+          <td>
+            <%= link_to version, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %><i class="material-icons">delete</i><% end %>
+            <%= link_to edit_version_path(version) do %><i class="material-icons">edit</i><% end %>
+          </td>
+        <% else %>
+          <td>
+            <%= link_to version, method: :get do %><i class="material-icons">list_alt</i><% end %>
+          </td>
+        <% end %>
         <td><%= link_to version.title, version, method: :get %>
         <br/>por <%= User.find(version.user_id).full_name %></td>
         <td>(<%= version.key %>)</td>
-        <% if current_user.role == "administrator" %>
-          <td><%= link_to edit_version_path(version) do %><i class="material-icons md-18">edit</i><% end %>
-          <%= link_to version, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %><i class="material-icons md-18">delete</i><% end %></td>
-        <% end %>
       </tr>
     <% end %>
   </tbody>
