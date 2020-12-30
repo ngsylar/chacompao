@@ -2,12 +2,16 @@
 
 Pendencias:
 
+* Adicionar sistema de versões (ok)
+
+* Adicionar mudança tonalidade (ok)
+
 * Adicionar auto rolagem (ok)
 
-* Corrigir escala de telas portáteis (ok)
+* Layout responsivo (ok)
+
+* Adicionar mecanismo de busca
 
 * Adicionar ordenamento de lista
 
 * Criar favoritos de versões
-
-* Adicionar mecanismo de busca
