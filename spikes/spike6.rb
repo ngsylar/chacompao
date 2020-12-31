@@ -12,4 +12,8 @@ param = hash.delete("category")
 p hash
 p param
 
+nilthing = nil
+p nilthing
+p nilthing.to_i
+
 # adicionar favoritos de usuarios (version_id)

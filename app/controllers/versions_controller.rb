@@ -2,6 +2,7 @@ class VersionsController < ApplicationController
   before_action :set_version, only: [:show, :edit, :update, :destroy]
   @@key = 0
   @@on_click = "on"
+  @@user_pref = 0
 
   # GET /versions
   # GET /versions.json
@@ -19,19 +20,25 @@ class VersionsController < ApplicationController
     @song = Song.find(@version.song_id)
     @user = User.find(@version.user_id)
     
-    key_change = params[:key_change].to_i
+    @key_change = params[:key_change].to_i
     @on_click = params[:on_click].to_s
     @clicked = @@on_click
+    @user_pref = params[:prefs].to_i
+    @@user_pref = @user_pref
 
-    if key_change == 0
+    if @key_change == 0
       @@key = 0
       @key = 0
+      @on_click = @@on_click
+    
+    elsif @key_change == 2
+      @key = @@key
       @on_click = @@on_click
 
     else
       @@on_click = @on_click
       if @on_click != @clicked
-        @@key += key_change
+        @@key += @key_change
         @@key -= 12 if @@key > 11
         @@key += 12 if @@key < 0
       end

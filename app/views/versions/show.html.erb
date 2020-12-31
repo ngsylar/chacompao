@@ -28,26 +28,54 @@
 <p>
   <% if @version.title != "default" %>
     <strong><%= @version.title %></strong><br/>por <strong><%= @user.full_name %></strong><br/><br/>
-  <% end %><br/>
+  <% end %>
   <% if @on_click == 'on' %>
     <% @on_click = 'off' %>
   <% elsif @on_click == 'off' %>
     <% @on_click = 'on' %>
   <% end %>
 
-  <strong>Tom:</strong>
-  <%= link_to url_for(key_change: '-1', on_click: @on_click), method: :get do %>
-    <i class="material-icons md-18">remove</i><% end %>
-  <span class="boldred"><%= @version.change_keyname(@key) %></span>
-  <%= link_to url_for(key_change: '1', on_click: @on_click), method: :get do %>
-    <i class="material-icons md-18">add</i><% end %>
-</p>
+  <% if current_user.id == @user.id %>
+    <%= link_to 'Editar cifra', edit_version_path(@version) %> | 
+  <% end %>
+  <%= link_to 'Adicionar cifra', new_version_path(ref_song: @song.id) %> | 
+  <%= link_to 'Outras cifras', @song %><br/><br/>
 
-<% if current_user.id == @user.id %>
-  <%= link_to 'Editar cifra', edit_version_path(@version) %> | 
-<% end %>
-<%= link_to 'Adicionar cifra', new_version_path(ref_song: @song.id) %> | 
-<%= link_to 'Outras cifras', @song %><br/><br/>
+  <table>
+    <thead>
+      <tr>
+        <th>Tom</th>
+        <th></th>
+        <th>Usar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="modhalf">
+          <%= link_to url_for(key_change: '-1', on_click: @on_click, prefs: @user_pref), method: :get do %>
+            –&half;
+          <% end %>
+          <span class="boldred"><%= @version.change_keyname(@key) %></span>
+          <%= link_to url_for(key_change: '1', on_click: @on_click, prefs: @user_pref), method: :get do %>
+            +&half;
+          <% end %>
+        </td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td id="harmonicfield">
+          <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: '0'), method: :get do %>
+            <strong>&natur;</strong>
+          <% end %>&nbsp;&nbsp;
+          <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: '1'), method: :get do %>
+            <strong>&sharp;</strong>
+          <% end %>&nbsp;&nbsp;
+          <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: '2'), method: :get do %>
+            <strong>&flat;</strong>
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
 
 <p class="text">
   <% if @key != 0 %>

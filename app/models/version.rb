@@ -65,6 +65,9 @@ class Version < ApplicationRecord
                 if atoms[0] == chord.first
                     atoms[0] = bib[key_change+i].first
                     break
+                elsif (chord.size == 2) && (atoms[0] == chord.last)
+                    atoms[0] = bib[key_change+i].first
+                    break
                 end
             end
             token = atoms.join
@@ -78,13 +81,13 @@ class Version < ApplicationRecord
             [
                 ['A'],
                 ['A#', 'Bb'],
-                ['B'],
-                ['C'],
+                ['B', 'Cb'],
+                ['C', 'B#'],
                 ['C#', 'Db'],
                 ['D'],
                 ['D#', 'Eb'],
-                ['E'],
-                ['F'],
+                ['E', 'Fb'],
+                ['F', 'E#'],
                 ['F#', 'Gb'],
                 ['G'],
                 ['G#', 'Ab']
@@ -183,8 +186,8 @@ class Version < ApplicationRecord
 
         # verifica se o token nao eh um acorde
         def not_chord (token)
-            bib_token = [] << token[0]
-            /^[[:lower:]]/ === token || !bib.include?(bib_token)
+            bib_token = token.split(/([\/ABCDEFG][#b]*)/).delete_if{|token| token.empty?}.first
+            /^[[:lower:]]/ === token || !bib.each{|key| key.include?(bib_token)}
         end
 
         # separa letra de acordes em um verso da musica
