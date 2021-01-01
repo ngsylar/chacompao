@@ -6,11 +6,8 @@
 <table>
   <thead>
     <tr>
-      <th>nº</th>
-      <th>Música</th>
       <th>Cifra</th>
-      <th>Tom</th>
-      <th colspan="1"></th>
+      <th>Ações</th>
     </tr>
   </thead>
 
@@ -18,12 +15,11 @@
     <% @versions.each do |version| %>
       <% song = Song.find(version.song_id) %>
       <tr>
-        <td><%= song.number %></td>
-        <td><%= song.title %>
-        <% if !song.author.empty? %>
-          <br/>(<%= song.author %>)<% end %></td>
-        <td><%= link_to version.title, version, method: :get %></td>
-        <td>(<%= version.key %>)</td>
+        <td>
+          <%= link_to version.title, version, method: :get %> (<%= version.key %>)<br/>
+          <span class="subtitle"><% if !song.author.empty? %><%= song.author %> -<% end %>
+          <% if song.number != nil %><%= song.number %> - <% end %><%= song.title %></span>
+        </td>
         <td><%= link_to edit_version_path(version) do %><i class="material-icons">edit</i><% end %>
         <%= link_to version, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %>
         <i class="material-icons">delete</i><% end %></td>

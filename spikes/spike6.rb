@@ -16,4 +16,14 @@ nilthing = nil
 p nilthing
 p nilthing.to_i
 
+token = "     A#m   ddr           "
+p token.gsub!(/\s/,'')
+p atoms = token.split(/([ABCDEFG][#b]*)/).delete_if{|token| token.empty?}
+p token[token.size-1]
+p atoms.last
+
+hash = {"title"=>"teste", "author"=>"teste", "category"=>"teste", "number"=>"0"}
+mandatory = {"author"=>nil}
+p hash.merge(mandatory)
+
 # adicionar favoritos de usuarios (version_id)

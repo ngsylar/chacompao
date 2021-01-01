@@ -56,14 +56,31 @@ class Version < ApplicationRecord
     end
 
     # informacao de tonalidade
-    def change_keyname (key_change, token = self.key)
-        if token
+    def change_keyname (key_change, acdt=0, token=self.key)
+        if !token.empty?
+            flats = [1,4,6,9,11]
+            major = [1,4,6,11]
+
             atoms = token.split(/([ABCDEFG][#b]*)/).delete_if{|token| token.empty?}
+
             bib.each_with_index do |chord, i|
                 key_change -= 12 if (key_change+i) > 11
                 key_change += 12 if (key_change+i) < 0
+
                 if (atoms[0] == chord.first) || ((chord.size == 2) && (atoms[0] == chord.last))
-                    atoms[0] = bib[key_change+i].first
+                    newkey = key_change + i
+
+                    if atoms.last == 'm'
+                        if ((acdt == 0) && (newkey == 1)) || ((acdt == 2) && flats.include?(newkey))
+                            atoms[0] = bib[newkey].last
+                        else
+                            atoms[0] = bib[newkey].first
+                        end
+                    elsif ((acdt == 0) && major.include?(newkey)) || ((acdt == 2) && flats.include?(newkey))
+                        atoms[0] = bib[newkey].last
+                    else
+                        atoms[0] = bib[newkey].first
+                    end
                     break
                 end
             end
@@ -161,8 +178,8 @@ class Version < ApplicationRecord
                     # procura parte do acorde em bib
                     bib_id = bib.index{|key| key.include?(token)}
                     
-                    # se parte do acorde nao esta definida em bib, insere parte
-                    if bib_id == nil
+                    # se parte do acorde nao esta definida em bib ou nao ha modulacao, insere parte
+                    if (bib_id == nil) || (key_change == 0)
                         token
 
                     # se parte do acorde esta definida em bib, insere parte alterada

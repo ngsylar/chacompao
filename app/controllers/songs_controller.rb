@@ -48,7 +48,7 @@ class SongsController < ApplicationController
           song_id: @song.id,
           user_id: current_user.id,
           title: "default",
-          key: version_key,
+          key: version_key.gsub(/\s/,''),
           songparts: version_text
         }
         default_version = Version.create!(version_params)

@@ -55,7 +55,13 @@
           <%= link_to url_for(key_change: '-1', on_click: @on_click, prefs: @user_pref), method: :get do %>
             –&half;
           <% end %>
-          <span class="boldred"><%= @version.change_keyname(@key) %></span>
+          <span class="boldred">
+            <% if (@key == 0) && (@user_pref == 0) %>
+              <%= @version.key %>
+            <% else %>
+              <%= @version.change_keyname(@key, @user_pref) %>
+            <% end %>
+          </span>
           <%= link_to url_for(key_change: '1', on_click: @on_click, prefs: @user_pref), method: :get do %>
             +&half;
           <% end %>
@@ -81,7 +87,7 @@
 </p>
 
 <p class="text">
-  <% if @key != 0 %>
+  <% if (@key != 0) || (@user_pref != 0) %>
     <% @version.change_key(@key).lines.each_with_index do |line, i| %>
       <% if /:\s*\n$/ === line %>
         <span class="verse"><%= line %></span><br/>
