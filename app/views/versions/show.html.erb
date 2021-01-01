@@ -63,13 +63,16 @@
         <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td id="harmonicfield">
           <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: '0'), method: :get do %>
-            <strong>&natur;</strong>
+            <% if @user_pref == 0 %><span class="boldred">&natur;</span>
+            <% else %><strong>&natur;</strong><% end %>
           <% end %>&nbsp;&nbsp;
           <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: '1'), method: :get do %>
-            <strong>&sharp;</strong>
+            <% if @user_pref == 1 %><span class="boldred">&sharp;</span>
+            <% else %><strong>&sharp;</strong><% end %>
           <% end %>&nbsp;&nbsp;
           <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: '2'), method: :get do %>
-            <strong>&flat;</strong>
+            <% if @user_pref == 2 %><span class="boldred">&flat;</span>
+            <% else %><strong>&flat;</strong><% end %>
           <% end %>
         </td>
       </tr>

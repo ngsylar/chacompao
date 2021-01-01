@@ -62,10 +62,7 @@ class Version < ApplicationRecord
             bib.each_with_index do |chord, i|
                 key_change -= 12 if (key_change+i) > 11
                 key_change += 12 if (key_change+i) < 0
-                if atoms[0] == chord.first
-                    atoms[0] = bib[key_change+i].first
-                    break
-                elsif (chord.size == 2) && (atoms[0] == chord.last)
+                if (atoms[0] == chord.first) || ((chord.size == 2) && (atoms[0] == chord.last))
                     atoms[0] = bib[key_change+i].first
                     break
                 end
