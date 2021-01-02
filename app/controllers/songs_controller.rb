@@ -8,11 +8,17 @@ class SongsController < ApplicationController
 
     if (searchfilter == nil) || (searchfilter.empty?)
       @songs = Song.order("number IS NULL, number ASC", "LOWER(title)")
+      
     else
+      defvers = Version.where(title: "default").where(
+        "LOWER(songparts) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%"
+      )
+      defvers_ids = defvers.map(&:song_id).to_a
+      
       @songs = Song.where(
         # "UNACCENT(LOWER(title)) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%"
         "LOWER(title) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%"
-      ).order("number IS NULL, number ASC", "LOWER(title)")
+      ).or(Song.where(id: defvers_ids)).order("number IS NULL, number ASC", "LOWER(title)")
     end
   end
 
