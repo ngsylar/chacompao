@@ -62,6 +62,16 @@ span.subtitle {
 div.field input, div.field textarea {
     width:95%;
 }
+.searchbox {
+    list-style: none;
+    padding: 0;
+}
+.searchbox-item {
+    display: inline;
+}
+.searchfield input, .searchfield textarea {
+    width:75%;
+}
 
 /* Rules for sizing the icon. */
 .material-icons.md-18 { font-size: 18px; }

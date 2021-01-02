@@ -4,7 +4,16 @@ class SongsController < ApplicationController
   # GET /songs
   # GET /songs.json
   def index
-    @songs = Song.all
+    searchfilter = params[:search]
+
+    if (searchfilter == nil) || (searchfilter.empty?)
+      @songs = Song.order("number IS NULL, number ASC", "LOWER(title)")
+    else
+      @songs = Song.where(
+        # "UNACCENT(LOWER(title)) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%"
+        "LOWER(title) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%"
+      ).order("number IS NULL, number ASC", "LOWER(title)")
+    end
   end
 
   # GET /songs/1

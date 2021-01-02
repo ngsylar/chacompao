@@ -4,7 +4,18 @@
 <h1>Músicas
 <% if current_user.role == "administrator" %>
   <%= link_to new_song_path do %><i class="material-icons">post_add</i><% end %>
-<br/><br/><% end %></h1>
+<br/><% end %></h1>
+
+<%= form_tag songs_path, :method => :get, id: 'search_form' do %>
+  <ul class="searchbox">
+    <li class="searchbox-item searchfield">
+      <%= text_field_tag 'search', nil, placeholder: "Insira aqui os termos da busca" %>
+    </li>
+    <li class="searchbox-item searchaction">
+      <%= submit_tag "Buscar", id: 'search_submit' %>
+    </li>
+  </ul>
+<% end %>
 
 <table>
   <thead>
