@@ -217,7 +217,9 @@ class Version < ApplicationRecord
         # verifica se o token nao eh um acorde
         def not_chord (token)
             bib_token = token.split(/([\/ABCDEFG][#b]*)/).delete_if{|token| token.empty?}.first
-            /^[[:lower:]]/ === token || !bib.each{|key| key.include?(bib_token)}
+            return true if /^[[:lower:]]/ === token
+            bib.each{|key| return false if key.include?(bib_token)}
+            return true
         end
 
         # separa letra de acordes em um verso da musica
