@@ -1,5 +1,6 @@
 <div class="scplayer">
-  <br/>
+  <%# <i class="material-icons">speed</i> %>
+  <span class="subtitle"><div class="sccontrol" id="scspeed"></div></span><br/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <button type="button" id="scslow"><i class="material-icons">fast_rewind</i></button>
   <div class="sccontrol sccontrol_front scbtactive">
@@ -8,7 +9,8 @@
     <button type="button" id="scpause"><i class="material-icons">pause</i></button>
   </div> <button type="button" id="scfast"><i class="material-icons">fast_forward</i></button>
   <button type="button" id="sctop"><i class="material-icons">replay</i></button>
-  <i class="material-icons">speed</i><sup><div class="sccontrol" id="scspeed"></div></sup>
+  <button class="incfont"><i class="material-icons">add</i></button>
+  <button class="decfont"><i class="material-icons">remove</i></button>
   <%# <div id="scloc"></div> %>
 </div>
 
@@ -115,6 +117,7 @@
 
 <div id="chordend">
 <%= link_to 'Procurar outra música', songs_path %>
+
 </div>
 
 <script type="text/javascript">
@@ -122,12 +125,22 @@
   const $sccontrol_back = document.querySelector('.sccontrol_back');
   let speed_change = 80;
 
+  $('.incfont').on('click', function() {
+    xsize = parseInt($("p.text").css('font-size')) + 1;    
+    $("p.text").css('font-size', xsize);
+  });
+
+  $('.decfont').on('click', function() {
+    xsize = parseInt($("p.text").css('font-size')) - 1;    
+    $("p.text").css('font-size', xsize);
+  });
+
   // function scloc(txt) {
   //   $("#scloc").html("location : <b>" + txt + "</b> px")
   // }
 
   function scspeed(txt) {
-    $("#scspeed").html("<b>" + txt + "x</b>")
+    $("#scspeed").html("<strong>" + txt + "x</strong>")
   }
 
   $(function() {

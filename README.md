@@ -10,7 +10,7 @@ Pendencias:
 
 * Layout responsivo (ok)
 
-* Adicionar mudança de tamanho da letra
+* Adicionar mudança de tamanho da letra (ok)
 
 * Adicionar mecanismo de busca
 
@@ -18,8 +18,7 @@ Pendencias:
 
 * Criar favoritos de versões
 
-* Adicionar preferencias de usuário (sustenidos ou bemois)
-    app/models/version.rb change_chords() line 715
+* Adicionar preferencias de usuário (sustenidos ou bemois) (ok)
 
 * Adicionar sistema de avaliação de cifras (5 estrelas)
 
