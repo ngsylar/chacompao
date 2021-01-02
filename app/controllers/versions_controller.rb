@@ -8,9 +8,9 @@ class VersionsController < ApplicationController
   # GET /versions.json
   def index
     if current_user.role == "administrator"
-      @versions = Version.all
+      @versions = Version.order("updated_at DESC")
     else
-      @versions = Version.where(user_id: current_user.id)
+      @versions = Version.where(user_id: current_user.id).order("updated_at DESC")
     end
   end
 

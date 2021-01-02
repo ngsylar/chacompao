@@ -8,7 +8,7 @@ class SongsController < ApplicationController
 
     if (searchfilter == nil) || (searchfilter.empty?)
       @songs = Song.order("number IS NULL, number ASC", "LOWER(title)")
-      
+
     else
       defvers = Version.where(title: "default").where(
         "LOWER(songparts) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%"
@@ -25,7 +25,7 @@ class SongsController < ApplicationController
   # GET /songs/1
   # GET /songs/1.json
   def show
-    versions = Version.where(song_id: @song.id)
+    versions = Version.where(song_id: @song.id).order("LOWER(title)")
     @my_versions = []
     @other_vers = []
     
