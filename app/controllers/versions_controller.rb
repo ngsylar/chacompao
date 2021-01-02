@@ -20,6 +20,7 @@ class VersionsController < ApplicationController
     @song = Song.find(@version.song_id)
     @user = User.find(@version.user_id)
     
+    @key_name = ""
     key_change = params[:key_change].to_i
     @on_click = params[:on_click].to_s
     @clicked = @@on_click

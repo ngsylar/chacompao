@@ -59,7 +59,8 @@
             <% if (@key == 0) && (@user_pref == 0) %>
               <%= @version.key %>
             <% else %>
-              <%= @version.change_keyname(@key, @user_pref) %>
+              <% @key_name = @version.change_keyname(@key, @user_pref) %>
+              <%= @key_name %>
             <% end %>
           </span>
           <%= link_to url_for(key_change: '1', on_click: @on_click, prefs: @user_pref), method: :get do %>
@@ -88,7 +89,7 @@
 
 <p class="text">
   <% if (@key != 0) || (@user_pref != 0) %>
-    <% @version.change_key(@key).lines.each_with_index do |line, i| %>
+    <% @version.change_key(@key, @key_name, @user_pref).lines.each_with_index do |line, i| %>
       <% if /:\s*\n$/ === line %>
         <span class="verse"><%= line %></span><br/>
       <% elsif line[0] == "C" %>

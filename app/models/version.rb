@@ -47,9 +47,9 @@ class Version < ApplicationRecord
     end
 
     # retorna a cifra com uma nova tonalidade
-    def change_key (key_change)
+    def change_key (key_change, key_name="", acdt=0)
         song_partitions = self.songparts.to_s.gsub("\\r", "").gsub("\\n", "\n")
-        song_parser(handwrite(song_partitions), key_change)
+        song_parser(handwrite(song_partitions), key_change, key_name, acdt)
         
         song_partitions = @song_partitions.to_s.gsub("\\r", "").gsub("\\n", "\n")
         transcribe(song_partitions)
@@ -58,11 +58,7 @@ class Version < ApplicationRecord
     # informacao de tonalidade
     def change_keyname (key_change, acdt=0, token=self.key)
         if !token.empty?
-            flats = [1,4,6,9,11]
-            major = [1,4,6,11]
-
             atoms = token.split(/([ABCDEFG][#b]*)/).delete_if{|token| token.empty?}
-
             bib.each_with_index do |chord, i|
                 key_change -= 12 if (key_change+i) > 11
                 key_change += 12 if (key_change+i) < 0
@@ -76,11 +72,13 @@ class Version < ApplicationRecord
                         else
                             atoms[0] = bib[newkey].first
                         end
-                    elsif ((acdt == 0) && major.include?(newkey)) || ((acdt == 2) && flats.include?(newkey))
+
+                    elsif ((acdt == 0) && flats_n8.include?(newkey)) || ((acdt == 2) && flats.include?(newkey))
                         atoms[0] = bib[newkey].last
                     else
                         atoms[0] = bib[newkey].first
                     end
+
                     break
                 end
             end
@@ -106,6 +104,20 @@ class Version < ApplicationRecord
                 ['G'],
                 ['G#', 'Ab']
             ]
+        end
+
+        # define os possiveis bemois das escalas
+        def flats
+            [1,4,6,9,11]
+        end
+        def flats_n8
+            [1,4,6,11]
+        end
+        def major
+            [1,4,6,8,11]
+        end
+        def minor
+            [1,3,5,8,10]
         end
 
         # transforma o texto inserido em dados estruturados que serao convertidos em strings de registro
@@ -170,7 +182,7 @@ class Version < ApplicationRecord
         end
 
         # muda a tonalidade de um arranjo de acordes
-        def change_chords (chords, key_change)
+        def change_chords (chords, key_change, acdt, flat_scale)
             chords.map! do |chord|
                 # divide o acorde em partes menores
                 tokens = chord.split(/([\/ABCDEFG][#b]*)/).delete_if{|token| token.empty?}
@@ -179,7 +191,7 @@ class Version < ApplicationRecord
                     bib_id = bib.index{|key| key.include?(token)}
                     
                     # se parte do acorde nao esta definida em bib ou nao ha modulacao, insere parte
-                    if (bib_id == nil) || (key_change == 0)
+                    if (bib_id == nil) || ((key_change == 0) && (acdt == 0))
                         token
 
                     # se parte do acorde esta definida em bib, insere parte alterada
@@ -189,7 +201,11 @@ class Version < ApplicationRecord
                         key -= 12 if key > 11
                         key += 12 if key < 0
 
-                        bib[key][0]
+                        if flat_scale && flats.include?(key)
+                            bib[key].last
+                        else
+                            bib[key].first
+                        end
                     end
                 end
 
@@ -259,7 +275,7 @@ class Version < ApplicationRecord
         end
 
         # muda a tonalidade de um verso
-        def change_verse_tone (verse_name, key_change)
+        def change_verse_tone (verse_name, key_change, acdt, flat_scale=false)
             # cria variavel com os acordes original
             verse_parser(verse_name)
             chords_lines = create_lines_from(@temp_chords)
@@ -267,7 +283,7 @@ class Version < ApplicationRecord
             # muda a tonalidade de todos os acordes
             chords_lines.map! do |line|
                 # muda a tonalidade de uma linha
-                tuned_chords = change_chords(line.values, key_change)
+                tuned_chords = change_chords(line.values, key_change, acdt, flat_scale)
                 tuned_line = line.keys.zip(tuned_chords)
             
                 # faz correcao de espacamento
@@ -294,14 +310,30 @@ class Version < ApplicationRecord
         end
 
         # muda a tonalidade da musica
-        def change_tone (key_change)
+        def change_tone (key_change, key_name, acdt)
+            if acdt == 1
+                flat_scale = false
+            elsif acdt == 2
+                flat_scale = true
+                
+            elsif !key_name.empty?
+                kn_parts = key_name.split(/([ABCDEFG][#b]*)/).delete_if{|token| token.empty?}
+                kn_bid = bib.index{|key| key.include?(kn_parts.first)}
+
+                if kn_parts.last == "m"
+                    flat_scale = minor.include?(kn_bid)
+                else
+                    flat_scale = major.include?(kn_bid)
+                end
+            end
+
             @song_structure.uniq.each do |verse_name|
-                change_verse_tone(verse_name, key_change)
+                change_verse_tone(verse_name, key_change, acdt, flat_scale)
             end
         end
 
         # cria uma estrutura de dados para a musica
-        def song_parser (song_text, key_change=0)
+        def song_parser (song_text, key_change=0, key_name="", acdt=0)
             # faz correcao de final de musica
             text_end = song_text[(song_text.size - 2), 2]
             song_text << "\n\n" unless text_end == "\n\n"
@@ -373,6 +405,6 @@ class Version < ApplicationRecord
             end
 
             # cria a estrutura dos versos
-            change_tone(key_change)
+            change_tone(key_change, key_name, acdt)
         end
 end
