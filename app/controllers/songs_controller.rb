@@ -21,12 +21,16 @@ class SongsController < ApplicationController
   # GET /songs/1.json
   def show
     versions = Version.where(song_id: @song.id).order("LOWER(title)")
+    fav = Favorite.find_by(user_id: current_user.id, song_id: @song.id)
+    @fav_ver = nil
     @my_versions = []
     @other_vers = []
     
     versions.each do |version|
       if version.title == "default"
         @def_version = version
+      elsif (fav != nil) && (version.id == fav.version_id)
+        @fav_ver = version
       elsif version.user_id == current_user.id
         @my_versions << version
       else

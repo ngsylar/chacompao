@@ -15,10 +15,15 @@
       <%= "(#{@song.author})" %>
     <% end %>
   </h2>
+
   <%= link_to @def_version, method: :get do %><i class="material-icons">check</i><% end %>
   <%= link_to "Cifra Padrão", @def_version, method: :get %> (<%= @def_version.key %>)
   <br/>
-  
+  <% if @fav_ver != nil %>
+    <%= link_to @fav_ver, method: :get do %><i class="material-icons">star</i><% end %>
+    <%= link_to "Cifra Favorita", @fav_ver, method: :get %> (<%= @fav_ver.key %>)
+    <br/>
+  <% end %>
   <%= link_to new_version_path(ref_song: @song.id) do %><i class="material-icons">post_add</i><% end %>
   <%= link_to "Adicionar cifra para esta música", new_version_path(ref_song: @song.id) %>
 </p>

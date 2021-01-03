@@ -30,8 +30,13 @@
     <% @songs.each do |song| %>
       <tr>
         <td><%= song.number %></td>
-        <% default_version = Version.find_by(song_id: song.id, title: "default") %>
-        <td><%= link_to song.title, default_version, method: :get %>
+        <% fav_ver = Favorite.find_by(user_id: current_user.id, song_id: song.id) %>
+        <% if fav_ver == nil %>
+          <% chosen_version = Version.find_by(song_id: song.id, title: "default") %>
+        <% else %>
+          <% chosen_version = Version.find(fav_ver.version_id) %>
+        <% end %>
+        <td><%= link_to song.title, chosen_version, method: :get %>
         <% if !song.author.empty? %>
           <br/>(<%= song.author %>)
         <% end %>
