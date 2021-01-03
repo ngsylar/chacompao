@@ -20,3 +20,5 @@ lendo:
     https://pt.stackoverflow.com/questions/5271/font-size-responsivo-conforme-o-tamanho-da-tela
     https://www.youtube.com/watch?v=AltqAPZzAqo
     https://www.alura.com.br/artigos/entenda-diferenca-entre-var-let-e-const-no-javascript
+    https://onebitcode.com/backup-rails/
+    

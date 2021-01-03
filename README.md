@@ -14,7 +14,7 @@ Pendencias:
 
 * Adicionar mecanismo de busca
 
-* Adicionar ordenamento de lista
+* Adicionar ordenamento de lista (auto)
 
 * Criar favoritos de versões
 
