@@ -8,16 +8,19 @@ class VersionsController < ApplicationController
   # GET /versions.json
   def index
     @filter_term = params[:terms] || "updated_at"
-    if @filter_term == "updated_at"
-      sort_term = @filter_term + " DESC"
-    else
-      sort_term = @filter_term + " ASC"
-    end
 
     if current_user.role == "administrator"
-      @versions = Version.order("#{sort_term}")
+      if @filter_term == "updated_at"
+        @versions = Version.where(user_id: current_user.id).order(updated_at: :desc)
+      else
+        @versions = Version.where(user_id: current_user.id).sorted_by_song_title
+      end
     else
-      @versions = Version.where(user_id: current_user.id).order("#{sort_term}")
+      if @filter_term == "updated_at"
+        @versions = Version.order(updated_at: :desc)
+      else
+        @versions = Version.sorted_by_song_title
+      end
     end
   end
 
@@ -52,6 +55,19 @@ class VersionsController < ApplicationController
       end
       @key = @@key
     end
+
+    fav_ver = Favorite.find_by(user_id: current_user.id, song_id: @version.song_id)
+    if params[:star].to_i == 1
+      if fav_ver == nil
+        Favorite.create!(user_id: current_user.id, song_id: @version.song_id, version_id: @version.id)
+      elsif fav_ver.version_id != @version.id
+        fav_ver.destroy
+        Favorite.create!(user_id: current_user.id, song_id: @version.song_id, version_id: @version.id)
+      end
+    elsif params[:star].to_i == -1
+      fav_ver.destroy if fav_ver != nil
+    end
+    @disp_fav = Favorite.find_by(user_id: current_user.id, version_id: @version.id)
   end
 
   # GET /versions/new

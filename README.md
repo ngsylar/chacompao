@@ -2,23 +2,26 @@
 
 Pendencias:
 
-* Adicionar sistema de versões (ok)
+* (ok) Adicionar sistema de versões
 
-* Adicionar mudança de tonalidade (ok)
+* (ok) Adicionar mudança de tonalidade
 
-* Adicionar auto rolagem (ok)
+* (ok) Adicionar preferencias de usuário (sustenidos ou bemois)
 
-* Layout responsivo (ok)
+* (ok) Adicionar auto rolagem
 
-* Adicionar mudança de tamanho da letra (ok)
+* (smhws) Layout responsivo
 
-* Adicionar mecanismo de busca (ok)
+* (smhws) Adicionar mudança de tamanho da letra
 
-* Adicionar ordenamento de lista (ok)
+* (ok) Adicionar mecanismo de busca
+
+* (ok) Adicionar ordenamento de lista
 
 * Criar favoritos de versões
+    clicar no nome da música levará à cifra favorita ou à cifra padrão
 
-* Adicionar preferencias de usuário (sustenidos ou bemois) (ok)
+* (!!!) Migrar de SQLite para Postgree
 
 * Adicionar sistema de avaliação de cifras (5 estrelas)
 

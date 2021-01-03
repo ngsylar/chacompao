@@ -11,6 +11,7 @@ usados:
     https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/if...else
     https://www.htmlsymbols.xyz/musical-symbols
     https://stackoverflow.com/questions/14327306/remove-underline-from-hyperlink-rails/14327536
+    https://medium.com/@thorntonbrenden/ruby-on-rails-switch-from-sqlite3-to-postgres-590009645c25
 
 descartados:
     https://www.geeksforgeeks.org/how-to-scroll-automatically-to-the-bottom-of-the-page-using-jquery/

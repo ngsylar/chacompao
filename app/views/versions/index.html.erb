@@ -5,11 +5,11 @@
 
 <%= form_tag versions_path, :method => :get, id: 'terms_form' do %>
   <% if @filter_term == "updated_at" %>
-    <%= radio_button_tag 'terms', 'title' %> Nome
-    <%= radio_button_tag 'terms', 'updated_at', checked: true %> Última atualização
+    <%= radio_button_tag 'terms', 'title' %> Música
+    <%= radio_button_tag 'terms', 'updated_at', checked: true %> Última alteração
   <% else %>
     <%= radio_button_tag 'terms', 'title', checked: true %> Nome
-    <%= radio_button_tag 'terms', 'updated_at' %> Última atualização
+    <%= radio_button_tag 'terms', 'updated_at' %> Última alteração
   <% end %>
   &nbsp;<%= submit_tag "Ordenar", id: 'terms_submit' %>
 <% end %><br/>

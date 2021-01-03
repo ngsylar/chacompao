@@ -10,21 +10,9 @@ class SongsController < ApplicationController
       @songs = Song.order("number IS NULL, number ASC", "LOWER(title)")
 
     else
-      defvers = Version.where(title: "default").where(
-        "replace(replace(replace(replace(replace(replace(replace(replace
-          (replace(replace(replace(replace(LOWER(songparts),
-          'à', 'a'), 'á', 'a'), 'â', 'a'), 'ã', 'a'), 'é', 'e'), 'ê', 'e'),
-          'í', 'i'), 'ó', 'o'), 'ô', 'o'), 'õ', 'o'), 'ú', 'u'), 'ç', 'c'
-        ) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%")
-      defvers_ids = defvers.map(&:song_id).to_a
-      
       @songs = Song.where(
-        "replace(replace(replace(replace(replace(replace(replace(replace
-          (replace(replace(replace(replace(LOWER(title),
-          'à', 'a'), 'á', 'a'), 'â', 'a'), 'ã', 'a'), 'é', 'e'), 'ê', 'e'),
-          'í', 'i'), 'ó', 'o'), 'ô', 'o'), 'õ', 'o'), 'ú', 'u'), 'ç', 'c'
-        ) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%"
-      ).or(Song.where(id: defvers_ids)).order(
+        "unaccent(LOWER(title)) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%"
+      ).or(Song.where(id: defvers_ids(searchfilter))).order(
         "number IS NULL, number ASC", "LOWER(title)")
     end
   end
@@ -117,5 +105,12 @@ class SongsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def song_params
       params.require(:song).permit(:title, :author, :category, :number)
+    end
+
+    # 
+    def defvers_ids (searchfilter)
+      defvers = Version.where(title: "default").where(
+        "unaccent(LOWER(songparts)) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%")
+      defvers.map(&:song_id).to_a
     end
 end

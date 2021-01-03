@@ -19,11 +19,17 @@
   <%= link_to 'Início', "../home/index" %> | 
   <%= link_to 'Buscar música', songs_path %>
 </p><br/>
-
 <p>
-  <h2><% if @song.number %>
-    <%= "#{@song.number} - " %>
-  <% end %><%= @song.title %></h2>
+  <h2>
+    <% if @song.number %><%= "#{@song.number} - " %><% end %>
+    <%= @song.title %><% if @disp_fav == nil %>
+    <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '1'), method: :get do %>
+      <i class="material-icons">star_border</i>
+    <% end %><% else %>
+    <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '-1'), method: :get do %>
+      <i class="material-icons">star</i>
+    <% end %><% end %>
+  </h2>
   <h3><%= @song.author %></h3>
 </p>
 

@@ -1,10 +1,18 @@
 class Version < ApplicationRecord
     validates :title, presence: true
+    has_many :favorites, dependent: :destroy
+
     belongs_to :song
     belongs_to :user
 
     before_create :default_behavior
     before_update :default_behavior
+
+    scope :sorted_by_song_title, -> { 
+        joins(:song).merge(
+            Song.order("LOWER(title)")
+        )
+    }
 
     # retorna os dados de forma apresentavel ao usuario
     def transcribe (song_partitions = self.songparts)

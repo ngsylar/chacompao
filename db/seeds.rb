@@ -16,4 +16,4 @@ Song.destroy_all
 User.destroy_all
 User.create(full_name: "Administrador", email: "admin@ccp.com", password: "admin123", role: "administrator")
 User.create(full_name: "Instrumentista", email: "musician@ccp.com", password: "admin123", role: "musician")
-User.create(full_name: "Usuario", email: "comuser@ccp.com", password: "admin123", role: "commonuser")
+# User.create(full_name: "Usuario", email: "comuser@ccp.com", password: "admin123", role: "commonuser")
