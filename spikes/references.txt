@@ -21,4 +21,5 @@ lendo:
     https://www.youtube.com/watch?v=AltqAPZzAqo
     https://www.alura.com.br/artigos/entenda-diferenca-entre-var-let-e-const-no-javascript
     https://onebitcode.com/backup-rails/
+    https://stackoverflow.com/questions/23218337/replace-multiple-values-at-the-same-time-in-order-to-convert-a-string-to-a-num
     

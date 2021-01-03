@@ -7,10 +7,17 @@ class VersionsController < ApplicationController
   # GET /versions
   # GET /versions.json
   def index
-    if current_user.role == "administrator"
-      @versions = Version.order("updated_at DESC")
+    @filter_term = params[:terms] || "updated_at"
+    if @filter_term == "updated_at"
+      sort_term = @filter_term + " DESC"
     else
-      @versions = Version.where(user_id: current_user.id).order("updated_at DESC")
+      sort_term = @filter_term + " ASC"
+    end
+
+    if current_user.role == "administrator"
+      @versions = Version.order("#{sort_term}")
+    else
+      @versions = Version.where(user_id: current_user.id).order("#{sort_term}")
     end
   end
 
@@ -77,7 +84,9 @@ class VersionsController < ApplicationController
     @version = Version.new(version_params.merge(mandatory_params))
 
     respond_to do |format|
-      if @version.save
+      if (@version.title == "default") && (current_user.role != "administrator")
+        format.html { redirect_to Song.find(song_id), alert: "O nome da cifra não pode ser \"default\" (nome reservado)" }
+      elsif @version.save
         format.html { redirect_to @version, notice: 'Cifra enviada com sucesso.' }
         # format.json { render :show, status: :created, location: @version }
       else
@@ -96,7 +105,9 @@ class VersionsController < ApplicationController
       partsstructs: nil
     }
     respond_to do |format|
-      if @version.update(version_params.merge(mandatory_params))
+      if (@version.title == "default") && (current_user.role != "administrator")
+        format.html { redirect_to Song.find(song_id), alert: "O nome da cifra não pode ser \"default\" (nome reservado)" }
+      elsif @version.update(version_params.merge(mandatory_params))
         format.html { redirect_to @version, notice: 'A cifra foi salva.' }
         # format.json { render :show, status: :ok, location: @version }
       else

@@ -12,9 +12,9 @@ Pendencias:
 
 * Adicionar mudança de tamanho da letra (ok)
 
-* Adicionar mecanismo de busca
+* Adicionar mecanismo de busca (ok)
 
-* Adicionar ordenamento de lista (auto)
+* Adicionar ordenamento de lista (ok)
 
 * Criar favoritos de versões
 

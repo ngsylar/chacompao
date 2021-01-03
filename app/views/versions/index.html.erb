@@ -3,6 +3,17 @@
 
 <h1>Minhas Cifras</h1>
 
+<%= form_tag versions_path, :method => :get, id: 'terms_form' do %>
+  <% if @filter_term == "updated_at" %>
+    <%= radio_button_tag 'terms', 'title' %> Nome
+    <%= radio_button_tag 'terms', 'updated_at', checked: true %> Última atualização
+  <% else %>
+    <%= radio_button_tag 'terms', 'title', checked: true %> Nome
+    <%= radio_button_tag 'terms', 'updated_at' %> Última atualização
+  <% end %>
+  &nbsp;<%= submit_tag "Ordenar", id: 'terms_submit' %>
+<% end %><br/>
+
 <table>
   <thead>
     <tr>
