@@ -186,7 +186,7 @@ class Version < ApplicationRecord
             tuned_chords.each do |line|
                 chords << line
             end
-            chords
+            chords.gsub(/\s*\n/, " \n")
         end
 
         # muda a tonalidade de um arranjo de acordes
