@@ -11,15 +11,15 @@ class VersionsController < ApplicationController
 
     if current_user.role == "administrator"
       if @filter_term == "updated_at"
-        @versions = Version.where(user_id: current_user.id).order(updated_at: :desc)
-      else
-        @versions = Version.where(user_id: current_user.id).sorted_by_song_title
-      end
-    else
-      if @filter_term == "updated_at"
         @versions = Version.order(updated_at: :desc)
       else
         @versions = Version.sorted_by_song_title
+      end
+    else
+      if @filter_term == "updated_at"
+        @versions = Version.where(user_id: current_user.id).order(updated_at: :desc)
+      else
+        @versions = Version.where(user_id: current_user.id).sorted_by_song_title
       end
     end
   end
