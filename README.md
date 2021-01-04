@@ -18,11 +18,10 @@ Pendencias:
 
 * (ok) Adicionar ordenamento de lista
 
-* Criar favoritos de versões
-    clicar no nome da música levará à cifra favorita ou à cifra padrão
+* (ok) Criar favoritos de versões
 
-* (!!!) Migrar de SQLite para Postgree
+* (ok) Migrar de SQLite para Postgree
 
-* Adicionar sistema de avaliação de cifras (5 estrelas)
+* (?) Adicionar sistema de avaliação de cifras (5 estrelas)
 
-* Tema escuro?
+* (?) Tema escuro
