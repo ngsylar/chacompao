@@ -56,6 +56,9 @@ span.boldred {
     color:#cc0000;
     font-weight: bold;
 }
+span.versiontitle {
+    color: #222;
+}
 span.subtitle {
     font-size: 11px;
 }
@@ -96,4 +99,20 @@ div.scplayer {
 }
 #scpause, #scplay, #sctop, #scfast, #scslow, #scloc, #scspeed {
     position: relative;
+}
+
+/* chords menu */
+.chords_menu {
+    background-color: #fff;
+    position: fixed;
+    display: block;
+    padding: 4px;
+    bottom: 0;
+}
+.chords_first_menu {
+    margin-left: auto;
+    margin-right: auto;
+}
+#attach_box, #attach_box3 {
+    text-decoration: underline;
 }

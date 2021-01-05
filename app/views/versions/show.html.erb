@@ -14,40 +14,92 @@
   <%# <div id="scloc"></div> %>
 </div>
 
+<div class="chords_menu" id="sec_box" style="display: none;">
+  <table class="chords_first_menu"><tbody>
+    <tr>
+      <td><%= link_to "../home/index" do %><i class="material-icons">home</i><% end %></td>
+      <td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
+      <td><%= link_to @song do %><i class="material-icons">library_music</i><% end %></td>
+      <td><a id="attach_box2"><i class="material-icons">clear</i></a></td>
+    </tr>
+  </tbody></table>
+
+  <table><tbody>
+    <tr>
+      <% if @disp_fav == nil %>
+        <td><%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '1'), method: :get do %><i class="material-icons">star_border</i><% end %></td>
+        <td><%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '1'), method: :get do %>Adicionar cifra às favoritas<% end %></td>
+      <% else %>
+        <td><%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '-1'), method: :get do %><i class="material-icons">star</i><% end %></td>
+        <td><%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '-1'), method: :get do %>Remover cifra das favoritas<% end %></td>
+      <% end %>
+    </tr>
+    <% if current_user.id == @user.id %>
+      <tr>
+        <td><%= link_to edit_version_path(@version) do %><i class="material-icons">edit</i><% end %></td>
+        <td><%= link_to "Editar cifra", edit_version_path(@version) %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td><%= link_to new_version_path(ref_song: @song.id) do %><i class="material-icons">post_add</i><% end %></td>
+      <td><%= link_to "Adicionar cifra", new_version_path(ref_song: @song.id) %></td>
+    </tr>
+    <tr>
+      <td><i class="material-icons">format_list_numbered</i></td>
+      <td>Adicionar música a uma lista</td>
+    </tr>
+  </tbody></table>
+</div>
+
+<div class="chords_menu" id="back_box" style="display: none;">
+  <table class="chords_first_menu"><tbody>
+    <tr>
+      <td><a id="attach_box4"><i class="material-icons">clear</i></a></td>
+    </tr>
+  </tbody></table>
+
+  <table><tbody>
+    <tr>
+      <td><%= link_to "../home/index" do %><i class="material-icons">home</i><% end %></td>
+      <td><%= link_to "../home/index" do %>Página inicial<% end %></td>
+    </tr>
+    <tr>
+      <td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
+      <td><%= link_to songs_path do %>Buscar música<% end %></td>
+    </tr>
+    <tr>
+      <td><%= link_to @song do %><i class="material-icons">library_music</i><% end %></td>
+      <td><%= link_to @song do %>Cifras<% end %></td>
+    </tr>
+  </tbody></table>
+</div>
+
 <div id="chordstart">
-<p><p id="notice"><% if notice %><%= notice %><% else %><br/><% end %></p>
-  <%= link_to 'Início', "../home/index" %> | 
-  <%= link_to 'Buscar música', songs_path %>
-</p><br/>
+
+<% if notice %>
+  <p id="notice"><%= notice %></p>
+<% else %>
+  <br/><br/>
+<% end %>
+
 <p>
   <h2>
     <% if @song.number %><%= "#{@song.number} - " %><% end %>
-    <%= @song.title %><% if @disp_fav == nil %>
-    <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '1'), method: :get do %>
-      <i class="material-icons">star_border</i>
-    <% end %><% else %>
-    <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '-1'), method: :get do %>
-      <i class="material-icons">star</i>
-    <% end %><% end %>
+    <%= @song.title %>
   </h2>
   <h3><%= @song.author %></h3>
 </p>
 
 <p>
-  <% if @version.title != "default" %>
-    <strong><%= @version.title %></strong><br/>por <strong><%= @user.full_name %></strong><br/><br/>
-  <% end %>
+  <% if @version.title != "default" %><span class="versiontitle">
+    <strong><%= @version.title %></strong><br/>por <strong><%= @user.full_name %></strong><br/>
+  </span><% end %>
+
   <% if @on_click == 'on' %>
     <% @on_click = 'off' %>
   <% elsif @on_click == 'off' %>
     <% @on_click = 'on' %>
   <% end %>
-
-  <% if current_user.id == @user.id %>
-    <%= link_to 'Editar cifra', edit_version_path(@version) %> | 
-  <% end %>
-  <%= link_to 'Adicionar cifra', new_version_path(ref_song: @song.id) %> | 
-  <%= link_to 'Outras cifras', @song %><br/><br/>
 
   <table>
     <thead>
@@ -55,6 +107,8 @@
         <th>Tom</th>
         <th></th>
         <th>Usar</th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -90,6 +144,10 @@
             <% else %><strong>&flat;</strong><% end %>
           <% end %>
         </td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>
+          &#9662; <a id="attach_box">Mais</a>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -122,7 +180,7 @@
 </div>
 
 <div id="chordend">
-  <%= link_to 'Procurar outra música', songs_path %>
+  <a id="attach_box3">Voltar para</a>
 </div>
 
 <script type="text/javascript">
@@ -157,6 +215,26 @@
 
     var speedometer = (170 - speed_change) / 10;
     scspeed(parseInt(speedometer, 10));
+
+    $('#attach_box').click(function() {
+      $('#sec_box').toggle();
+      return false;
+    });
+
+    $('#attach_box2').click(function() {
+      $('#sec_box').toggle();
+      return false;
+    });
+
+    $('#attach_box3').click(function() {
+      $('#back_box').toggle();
+      return false;
+    });
+
+    $('#attach_box4').click(function() {
+      $('#back_box').toggle();
+      return false;
+    });
   });
 
   $("#scfast").click(function() {

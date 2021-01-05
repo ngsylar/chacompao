@@ -17,6 +17,7 @@ usados:
     https://www.htmlsymbols.xyz/musical-symbols
     https://stackoverflow.com/questions/14327306/remove-underline-from-hyperlink-rails/14327536
     https://stackoverflow.com/questions/44037021/update-username-not-working-in-devise
+    https://stackoverflow.com/questions/3124537/jquery-show-div-when-link-gets-clicked
 
 descartados:
     https://www.geeksforgeeks.org/how-to-scroll-automatically-to-the-bottom-of-the-page-using-jquery/
