@@ -1,10 +1,11 @@
 class FavoritesController < ApplicationController
   before_action :set_favorite, only: [:destroy]
+  before_action :authenticate_user!
 
   # GET /favorites
   # GET /favorites.json
   def index
-    @favorites = Favorite.sorted_by_song_title
+    @favorites = Favorite.where(user_id: current_user.id).sorted_by_song_title
   end
 
   # DELETE /favorites/1

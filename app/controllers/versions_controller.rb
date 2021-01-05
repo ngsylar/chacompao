@@ -1,5 +1,7 @@
 class VersionsController < ApplicationController
   before_action :set_version, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+
   @@key = 0
   @@on_click = "on"
   @@user_pref = 0
