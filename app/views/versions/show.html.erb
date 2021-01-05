@@ -17,7 +17,7 @@
 <div class="chords_menu" id="sec_box" style="display: none;">
   <table class="chords_first_menu"><tbody>
     <tr>
-      <td><%= link_to "../home/index" do %><i class="material-icons">home</i><% end %></td>
+      <td><%= link_to homepage_url do %><i class="material-icons">home</i><% end %></td>
       <td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
       <td><%= link_to @song do %><i class="material-icons">library_music</i><% end %></td>
       <td><a id="attach_box2"><i class="material-icons">clear</i></a></td>
@@ -60,12 +60,12 @@
 
   <table><tbody>
     <tr>
-      <td><%= link_to "../home/index" do %><i class="material-icons">home</i><% end %></td>
-      <td><%= link_to "../home/index" do %>Página inicial<% end %></td>
+      <td><%= link_to homepage_url do %><i class="material-icons">home</i><% end %></td>
+      <td><%= link_to homepage_url do %>Página inicial<% end %></td>
     </tr>
     <tr>
       <td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
-      <td><%= link_to songs_path do %>Buscar música<% end %></td>
+      <td><%= link_to songs_path do %>Músicas<% end %></td>
     </tr>
     <tr>
       <td><%= link_to @song do %><i class="material-icons">library_music</i><% end %></td>

@@ -1,6 +1,7 @@
 class VersionsController < ApplicationController
-  before_action :set_version, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :set_version, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_musician, only: [:edit, :update, :destroy]
 
   @@key = 0
   @@on_click = "on"
@@ -95,7 +96,6 @@ class VersionsController < ApplicationController
     song_id = version_params["song_id"]
 
     mandatory_params = {
-      # song_id: @song.id,
       user_id: current_user.id,
       key: version_params["key"].gsub(/\s/,'')
     }
@@ -106,10 +106,8 @@ class VersionsController < ApplicationController
         format.html { redirect_to Song.find(song_id), alert: "O nome da cifra não pode ser \"default\" (nome reservado)" }
       elsif @version.save
         format.html { redirect_to @version, notice: 'Cifra enviada com sucesso.' }
-        # format.json { render :show, status: :created, location: @version }
       else
         format.html { redirect_to Song.find(song_id), alert: 'A cifra não pôde ser enviada!' }
-        # format.json { render json: @version.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -127,10 +125,8 @@ class VersionsController < ApplicationController
         format.html { redirect_to Song.find(song_id), alert: "O nome da cifra não pode ser \"default\" (nome reservado)" }
       elsif @version.update(version_params.merge(mandatory_params))
         format.html { redirect_to @version, notice: 'A cifra foi salva.' }
-        # format.json { render :show, status: :ok, location: @version }
       else
         format.html { render :edit }
-        # format.json { render json: @version.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -141,7 +137,6 @@ class VersionsController < ApplicationController
     @version.destroy
     respond_to do |format|
       format.html { redirect_to request.referrer, notice: 'Cifra excluída.' }
-      # format.json { head :no_content }
     end
   end
 
@@ -154,5 +149,12 @@ class VersionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def version_params
       params.require(:version).permit(:song_id, :user_id, :title, :key, :songstruct, :songparts, :partsstructs)
+    end
+
+    # 
+    def ensure_musician
+      unless user_signed_in? && (@version.user_id == current_user.id)
+        redirect_to homepage_url, alert: 'Você não tem permissão para executar essa ação!'
+      end
     end
 end

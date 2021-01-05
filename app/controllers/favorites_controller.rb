@@ -1,6 +1,6 @@
 class FavoritesController < ApplicationController
-  before_action :set_favorite, only: [:destroy]
   before_action :authenticate_user!
+  before_action :set_favorite, only: [:destroy]
 
   # GET /favorites
   # GET /favorites.json
@@ -21,6 +21,9 @@ class FavoritesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_favorite
       @favorite = Favorite.find(params[:id])
+      unless user_signed_in? && (@favorite.user_id == current_user.id)
+        redirect_to homepage_url, alert: 'Você não tem permissão para executar essa ação!'
+      end
     end
 
     # Only allow a list of trusted parameters through.

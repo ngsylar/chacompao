@@ -1,6 +1,7 @@
 class SongsController < ApplicationController
-  before_action :set_song, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :set_song, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_admin, only: [:new, :edit, :update, :destroy]
 
   # GET /songs
   # GET /songs.json
@@ -72,10 +73,8 @@ class SongsController < ApplicationController
         default_version = Version.create!(version_params)
 
         format.html { redirect_to default_version, notice: 'Música enviada com sucesso.' }
-        # format.json { render :show, status: :created, location: @song }
       else
         format.html { render :new }
-        # format.json { render json: @song.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -86,10 +85,8 @@ class SongsController < ApplicationController
     respond_to do |format|
       if @song.update(song_params)
         format.html { redirect_to @song, notice: 'Informações atualizadas com sucesso.' }
-        # format.json { render :show, status: :ok, location: @song }
       else
         format.html { render :edit }
-        # format.json { render json: @song.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -100,7 +97,6 @@ class SongsController < ApplicationController
     @song.destroy
     respond_to do |format|
       format.html { redirect_to songs_url, notice: 'A música foi excluída.' }
-      # format.json { head :no_content }
     end
   end
 
@@ -120,5 +116,12 @@ class SongsController < ApplicationController
       defvers = Version.where(title: "default").where(
         "unaccent(LOWER(songparts)) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%")
       defvers.map(&:song_id).to_a
+    end
+
+    # 
+    def ensure_admin
+      unless user_signed_in? && (current_user.role == "administrator")
+        redirect_to homepage_url, alert: 'Você não tem permissão para executar essa ação!'
+      end
     end
 end
