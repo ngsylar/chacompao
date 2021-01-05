@@ -10,7 +10,7 @@ class Version < ApplicationRecord
 
     scope :sorted_by_song_title, -> { 
         joins(:song).merge(
-            Song.order("LOWER(title)")
+            Song.order("LOWER(songs.title)")
         )
     }
 

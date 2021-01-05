@@ -10,10 +10,13 @@ class SongsController < ApplicationController
       @songs = Song.order("number IS NULL, number ASC", "LOWER(title)")
 
     else
-      @songs = Song.where(
-        "unaccent(LOWER(title)) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%"
-      ).or(Song.where(id: defvers_ids(searchfilter))).order(
-        "number IS NULL, number ASC", "LOWER(title)")
+      @songs = Song.where(number: searchfilter)
+      if @songs.empty?
+        @songs = Song.where(
+          "unaccent(LOWER(title)) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%"
+        ).or(Song.where(id: defvers_ids(searchfilter))).order(
+          "number IS NULL, number ASC", "LOWER(title)")
+      end
     end
   end
 

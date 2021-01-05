@@ -1,27 +1,31 @@
 # README
 
-Pendencias:
+Pendências:
 
-* (ok) Adicionar sistema de versões
-
-* (ok) Adicionar mudança de tonalidade
-
-* (ok) Adicionar preferencias de usuário (sustenidos ou bemois)
-
-* (ok) Adicionar auto rolagem
+* (ok) PostgreeSQL
 
 * (smhws) Layout responsivo
 
-* (smhws) Adicionar mudança de tamanho da letra
+* Disposição dos links na página da cifra (como está?)
 
-* (ok) Adicionar mecanismo de busca
+Funcionalidades:
 
-* (ok) Adicionar ordenamento de lista
+* (ok) Sistema de versões (cifras para uma música)
 
-* (ok) Criar favoritos de versões
+* (ok) Modulação de cifras
 
-* (ok) Migrar de SQLite para Postgree
+* (ok) Preferencias de cifra (sustenidos ou bemois)
 
-* (?) Adicionar sistema de avaliação de cifras (5 estrelas)
+* (ok) Auto rolagem
+
+* (smhws) Tamanho da letra ajustável
+
+* (ok) Mecanismo de busca (por número, nome ou pedaço)
+
+* (ok) Ordenamento de lista
+
+* (ok) Cifras favoritas
+
+* (?) Avaliação de cifras (5 estrelas)
 
 * (?) Tema escuro
