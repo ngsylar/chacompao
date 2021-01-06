@@ -9,15 +9,28 @@ class SongsController < ApplicationController
     searchfilter = params[:search]
 
     if (searchfilter == nil) || (searchfilter.empty?)
-      @songs = Song.order("number IS NULL, number ASC", "LOWER(title)")
+      @songs = Song.order(
+        "CASE
+          WHEN LOWER(category) = 'contracapa' THEN '1'
+          WHEN number IS NULL THEN '4'
+          WHEN LOWER(category) != 'cia' THEN '2'
+          WHEN LOWER(category) = 'cia' THEN '3'
+        END",
+        "number ASC", "LOWER(title)"
+      )
 
     else
       @songs = Song.where(number: searchfilter)
+      searchterm = I18n.transliterate(searchfilter.downcase)
       if @songs.empty?
         @songs = Song.where(
-          "unaccent(LOWER(title)) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%"
-        ).or(Song.where(id: defvers_ids(searchfilter))).order(
-          "number IS NULL, number ASC", "LOWER(title)")
+          "UNACCENT(LOWER(title)) like ?", "%#{searchterm}%"
+        ).or(Song.where(id: defvers_ids(searchterm))).order(
+          "CASE
+            WHEN UNACCENT(LOWER(title)) like '#{searchterm}' THEN '1'
+          END",
+          "LOWER(title)"
+        )
       end
     end
   end
@@ -112,9 +125,9 @@ class SongsController < ApplicationController
     end
 
     # 
-    def defvers_ids (searchfilter)
+    def defvers_ids (searchterm)
       defvers = Version.where(title: "default").where(
-        "unaccent(LOWER(songparts)) like ?", "%#{I18n.transliterate(searchfilter.downcase)}%")
+        "UNACCENT(LOWER(songparts)) like ?", "%#{searchterm}%")
       defvers.map(&:song_id).to_a
     end
 
