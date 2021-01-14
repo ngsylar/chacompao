@@ -102,7 +102,7 @@ class VersionsController < ApplicationController
     @version = Version.new(version_params.merge(mandatory_params))
 
     respond_to do |format|
-      if (@version.title == "default") && (current_user.role != "administrator")
+      if admin_privileges(@version.title) && (current_user.role != "administrator")
         format.html { redirect_to Song.find(song_id), alert: "O nome da cifra não pode ser \"default\" (nome reservado)" }
       elsif @version.save
         format.html { redirect_to @version, notice: 'Cifra enviada com sucesso.' }
@@ -115,13 +115,16 @@ class VersionsController < ApplicationController
   # PATCH/PUT /versions/1
   # PATCH/PUT /versions/1.json
   def update
+    song_id = @version.song_id
+
     mandatory_params = {
       key: version_params["key"].gsub(/\s/,''),
       songstruct: nil,
       partsstructs: nil
     }
+
     respond_to do |format|
-      if (@version.title == "default") && (current_user.role != "administrator")
+      if admin_privileges(version_params["title"]) && (current_user.role != "administrator")
         format.html { redirect_to Song.find(song_id), alert: "O nome da cifra não pode ser \"default\" (nome reservado)" }
       elsif @version.update(version_params.merge(mandatory_params))
         format.html { redirect_to @version, notice: 'A cifra foi salva.' }
@@ -156,5 +159,10 @@ class VersionsController < ApplicationController
       unless user_signed_in? && (@version.user_id == current_user.id)
         redirect_to homepage_url, alert: 'Você não tem permissão para executar essa ação!'
       end
+    end
+
+    # 
+    def admin_privileges (version_title)
+      version_title == "default" || version_title == "def_simple" || version_title == "def_lyrics"
     end
 end
