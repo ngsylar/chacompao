@@ -20,21 +20,46 @@
 <table class="homemenu">
   <thead><tr><th colspan="2"></th></tr></thead>
   <tbody>
-    <tr><td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
-      <td><%= link_to "Buscar música", songs_path %></td>
+    <tr class="tdbutton">
+      <td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
+      <td>
+        <%= link_to songs_path do %>
+          <div class="songlist">Buscar música</div>
+        <% end %>
+      </td>
     </tr>
-    <tr><td><%= link_to versions_path do %><i class="material-icons">library_music</i><% end %></td>
-      <td><%= link_to "Minhas cifras", versions_path %></td>
+    <tr class="tdbutton">
+      <td><%= link_to versions_path do %><i class="material-icons">library_music</i><% end %></td>
+      <td>
+        <%= link_to versions_path do %>
+          <div class="songlist">Minhas cifras</div>
+        <% end %>
+      </td>
     </tr>
-    <tr><td><%= link_to versions_path do %><i class="material-icons">star</i><% end %></td>
-      <td><%= link_to "Favoritas", favorites_path %></td>
+    <tr class="tdbutton">
+      <td><%= link_to versions_path do %><i class="material-icons">star</i><% end %></td>
+      <td>
+        <%= link_to favorites_path do %>
+          <div class="songlist">Favoritas</div>
+        <% end %>
+      </td>
     </tr>
-    <tr><td><%= link_to edit_user_registration_path do %><i class="material-icons">person</i><% end %></td>
-      <td><%= link_to "Editar perfil", edit_user_registration_path %></td>
+    <tr class="tdbutton">
+      <td><%= link_to edit_user_registration_path do %><i class="material-icons">person</i><% end %></td>
+      <td>
+        <%= link_to edit_user_registration_path do %>
+          <div class="songlist">Editar perfil</div>
+        <% end %>
+      </td>
     </tr>
-    <tr><td><%= link_to destroy_user_session_path, method: :delete do %>
+    <tr class="tdbutton">
+      <td><%= link_to destroy_user_session_path, method: :delete do %>
       <i class="material-icons">logout</i><% end %></td>
-      <td><%= link_to "Sair", destroy_user_session_path, method: :delete %></td>
+      <td>
+        <%= link_to destroy_user_session_path, method: :delete do %>
+          <div class="songlist">Sair</div>
+        <% end %>
+      </td>
     </tr>
   </tbody>
 </table>
