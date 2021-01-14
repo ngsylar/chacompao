@@ -28,21 +28,41 @@
 
   <tbody>
     <% @songs.each do |song| %>
-      <tr>
-        <td><%= song.number %></td>
+      <tr class="tdbutton">
         <% fav_ver = Favorite.find_by(user_id: current_user.id, song_id: song.id) %>
         <% if fav_ver == nil %>
           <% chosen_version = Version.find_by(song_id: song.id, title: "default") %>
         <% else %>
           <% chosen_version = Version.find(fav_ver.version_id) %>
         <% end %>
-        <td><%= link_to song.title, chosen_version, method: :get %>
-        <% if !song.author.empty? %>
-          <br/>(<%= song.author %>)
+
+        <% if song.number %>
+          <td>
+            <%= link_to chosen_version, method: :get do %>
+              <div class="songlist"><%= song.number %></div>
+            <% end %>
+          </td>
         <% end %>
-        <% if !song.category.empty? %>
-          <br/>(<%= song.category %>)
-        <% end %></td>
+        
+        <% if song.number %>
+          <td>
+        <% else %>
+          <td colspan="2">
+        <% end %>
+          <%= link_to chosen_version, method: :get do %>
+            <div class="songlist">
+              <%= song.title %>
+              <span class="subtitle">
+                <% if !song.author.empty? %>
+                  <br/>(<%= song.author %>)
+                <% end %>
+                <% if !song.category.empty? %>
+                  <br/>(<%= song.category %>)
+                <% end %>
+              </span>
+            </div>
+          <% end %>
+        </td>
         
         <td><%= link_to song do %><i class="material-icons">library_music</i><% end %>
         <% if current_user.role == "administrator" %>

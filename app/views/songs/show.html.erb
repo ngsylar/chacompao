@@ -5,47 +5,70 @@
   <%= link_to 'Músicas', songs_path %> >
 </p>
 
-<p>
-  <h2>
-    <% if @song.number %>
-      <%= "#{@song.number} - " %>
-    <% end %>
-    <%= @song.title %>
-    <% if !@song.author.empty? %>
-      <%= "(#{@song.author})" %>
-    <% end %>
-  </h2>
-
-  <%= link_to @def_version, method: :get do %><i class="material-icons">check</i><% end %>
-  <%= link_to "Cifra Padrão", @def_version, method: :get %> (<%= @def_version.key %>)
-  <br/>
-  <% if @fav_ver != nil %>
-    <%= link_to @fav_ver, method: :get do %><i class="material-icons">star</i><% end %>
-    <%= link_to "Cifra Favorita", @fav_ver, method: :get %> (<%= @fav_ver.key %>)
-    <br/>
+<h2>
+  <% if @song.number %>
+    <%= "#{@song.number} - " %>
   <% end %>
-  <%= link_to new_version_path(ref_song: @song.id) do %><i class="material-icons">post_add</i><% end %>
-  <%= link_to "Adicionar cifra para esta música", new_version_path(ref_song: @song.id) %>
-</p>
+  <%= @song.title %>
+  <% if !@song.author.empty? %>
+    <%= "(#{@song.author})" %>
+  <% end %>
+</h2>
+
+<table>
+  <tbody>
+    <tr class="tdbutton">
+      <td>
+        <%= link_to @def_version, method: :get do %><i class="material-icons">check</i><% end %>
+      </td>
+      <td>
+        <%= link_to @def_version, method: :get do %>
+          <div class="songlist">Cifra Padrão (<%= @def_version.key %>)</div>
+        <% end %>
+      </td>
+    </tr>
+
+    <% if @fav_ver != nil %>
+      <tr class="tdbutton">
+        <td>
+          <%= link_to @fav_ver, method: :get do %><i class="material-icons">star</i><% end %>
+        </td>
+        <td>
+          <%= link_to @fav_ver, method: :get do %>
+            <div class="songlist">Cifra Favorita (<%= @fav_ver.key %>)</div>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+
+    <tr class="tdbutton">
+      <td>
+        <%= link_to new_version_path(ref_song: @song.id) do %><i class="material-icons">post_add</i><% end %>
+      </td>
+      <td>
+        <%= link_to new_version_path(ref_song: @song.id) do %>
+          <div class="songlist">Adicionar cifra para esta música</div>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <br/>
 
 <h3>Minhas cifras</h3>
 <table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
   <tbody>
     <% @my_versions.each do |version| %>
-      <tr>
+      <tr class="tdbutton">
         <td>
           <%= link_to version, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %><i class="material-icons">delete</i><% end %>
           <%= link_to edit_version_path(version) do %><i class="material-icons">edit</i><% end %>
         </td>
-        <td><%= link_to version.title, version, method: :get %></td>
-        <td>(<%= version.key %>)</td>
+        <td>
+          <%= link_to version, method: :get do %>
+            <div class="songlist"><%= version.title %> (<%= version.key %>)</div>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -54,15 +77,9 @@
 
 <h3>Cifras de outros usuários</h3>
 <table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
   <tbody>
     <% @other_vers.each do |version| %>
-      <tr>
+      <tr class="tdbutton">
         <% if current_user.role == "administrator" %>
           <td>
             <%= link_to version, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %><i class="material-icons">delete</i><% end %>
@@ -73,9 +90,14 @@
             <%= link_to version, method: :get do %><i class="material-icons">list_alt</i><% end %>
           </td>
         <% end %>
-        <td><%= link_to version.title, version, method: :get %>
-        <br/>por <%= User.find(version.user_id).full_name %></td>
-        <td>(<%= version.key %>)</td>
+        <td>
+          <%= link_to version, method: :get do %>
+            <div class="songlist">
+              <%= version.title %> (<%= version.key %>)
+              <br/>por <%= User.find(version.user_id).full_name %>
+            </div>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

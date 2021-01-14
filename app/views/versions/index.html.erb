@@ -25,12 +25,17 @@
   <tbody>
     <% @versions.each do |version| %>
       <% song = Song.find(version.song_id) %>
-      <tr>
+      <tr class="tdbutton">
         <td>
-          <%= link_to version.title, version, method: :get %> (<%= version.key %>)<br/>
-          <span class="subtitle"><% if !song.author.empty? %><%= song.author %> -<% end %>
-          <% if song.number != nil %><%= song.number %> - <% end %><%= song.title %></span>
+          <%= link_to version, method: :get do %>
+            <div class="songlist">
+              <%= version.title %> (<%= version.key %>)<br/>
+              <span class="subtitle"><% if !song.author.empty? %><%= song.author %> -<% end %>
+              <% if song.number != nil %><%= song.number %> - <% end %><%= song.title %></span>
+            </div>
+          <% end %>
         </td>
+        
         <td><%= link_to edit_version_path(version) do %><i class="material-icons">edit</i><% end %>
         <%= link_to version, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %>
         <i class="material-icons">delete</i><% end %></td>

@@ -8,6 +8,8 @@ Pendências:
 
 * Disposição dos links na página da cifra (como está?)
 
+* (?) Apenas letra (favorece o mecanismo de busca)
+
 Funcionalidades:
 
 * (ok) Sistema de versões (cifras para uma música)

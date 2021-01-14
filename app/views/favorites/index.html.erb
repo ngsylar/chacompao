@@ -8,13 +8,17 @@
     <% @favorites.each do |favorite| %>
       <% version = Version.find(favorite.version_id) %>
       <% song = Song.find(version.song_id) %>
-      <tr>
+      <tr class="tdbutton">
         <td>
           <%= link_to version, method: :get do %>
-            <% if !song.author.empty? %><%= song.author %> -<% end %>
-            <% if song.number != nil %><%= song.number %> - <% end %>
-            <%= song.title %><% end %><br/>
-          <span class="subtitle"><%= version.title %> (<%= version.key %>)</span>
+            <div class="songlist">
+              <% if !song.author.empty? %><%= song.author %> -<% end %>
+              <% if song.number != nil %><%= song.number %> - <% end %>
+              <%= song.title %>
+              <br/>
+              <span class="subtitle"><%= version.title %> (<%= version.key %>)</span>
+            </div>
+          <% end %>
         </td>
         <td><%= link_to favorite, method: :delete do %>
           <i class="material-icons">clear</i>

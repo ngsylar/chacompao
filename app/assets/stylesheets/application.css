@@ -116,3 +116,18 @@ div.scplayer {
 #attach_box, #attach_box3 {
     text-decoration: underline;
 }
+
+/* lists */
+.tdbutton a:link {
+    text-decoration: none;
+}
+.tdbutton a:hover {
+    color: #000;
+}
+.tdbutton:hover {
+    background-color: #DDD;
+}
+.songlist {
+    height:100%;
+    width:100%;
+}

@@ -12,9 +12,10 @@ class SongsController < ApplicationController
       @songs = Song.order(
         "CASE
           WHEN LOWER(category) = 'contracapa' THEN '1'
-          WHEN number IS NULL THEN '4'
-          WHEN LOWER(category) != 'cia' THEN '2'
-          WHEN LOWER(category) = 'cia' THEN '3'
+          WHEN LOWER(category) = 'avulso' THEN '4'
+          WHEN number IS NULL THEN '5'
+          WHEN LOWER(category) != 'cias' THEN '2'
+          WHEN LOWER(category) = 'cias' THEN '3'
         END",
         "number ASC", "LOWER(title)"
       )
