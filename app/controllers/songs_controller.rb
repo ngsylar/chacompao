@@ -23,14 +23,16 @@ class SongsController < ApplicationController
     else
       @songs = Song.where(number: searchfilter)
       searchterm = I18n.transliterate(searchfilter.downcase)
+      searchexpr = searchterm.gsub(/\s*[-]\s*/, '')
       if @songs.empty?
         @songs = Song.where(
           "UNACCENT(LOWER(title)) like ?", "%#{searchterm}%"
-        ).or(Song.where(id: defvers_ids(searchterm))).order(
+        ).or(Song.where(
+            "UNACCENT(LOWER(lyrics)) like ?", "%#{searchexpr}%"
+          )).order(
           "CASE
             WHEN UNACCENT(LOWER(title)) like '#{searchterm}' THEN '1'
-          END",
-          "LOWER(title)"
+          END", "LOWER(title)"
         )
       end
     end
@@ -85,6 +87,7 @@ class SongsController < ApplicationController
           songparts: version_text
         }
         default_version = Version.create!(version_params)
+        @song.update(lyrics: default_version.singalong)
 
         format.html { redirect_to default_version, notice: 'Música enviada com sucesso.' }
       else
@@ -123,13 +126,6 @@ class SongsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def song_params
       params.require(:song).permit(:title, :author, :category, :number)
-    end
-
-    # 
-    def defvers_ids (searchterm)
-      defvers = Version.where(title: "default").where(
-        "UNACCENT(LOWER(songparts)) like ?", "%#{searchterm}%")
-      defvers.map(&:song_id).to_a
     end
 
     # 

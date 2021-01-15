@@ -22,8 +22,15 @@ class Version < ApplicationRecord
         @partitions_structure.each do |verse, lines|
             lines.each_with_index do |line, i|
                 if line == "L"
-                    plaintxt = I18n.transliterate(@song_partitions[verse][i].gsub(/\s*[-]\s*/, '').gsub(/\s*[^[:alpha:]]\s*/, ' ').downcase)
-                    @transcribed_text << plaintxt
+                    plaintxt = I18n.transliterate(
+                        @song_partitions[verse][i].gsub(/\s*[-]\s*/, '').
+                        gsub(/\s*[^[:alpha:]]\s*/, ' ').downcase
+                    )
+                    if plaintxt[plaintxt.size-1] != "\s"
+                        @transcribed_text << plaintxt + "\s"
+                    else
+                        @transcribed_text << plaintxt
+                    end
                 end
             end
         end

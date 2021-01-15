@@ -127,6 +127,7 @@ class VersionsController < ApplicationController
       if admin_privileges(version_params["title"]) && (current_user.role != "administrator")
         format.html { redirect_to Song.find(song_id), alert: "O nome da cifra não pode ser \"default\" (nome reservado)" }
       elsif @version.update(version_params.merge(mandatory_params))
+        Song.find(song_id).update(lyrics: @version.singalong) if @version.title == "default"
         format.html { redirect_to @version, notice: 'A cifra foi salva.' }
       else
         format.html { render :edit }
@@ -163,6 +164,6 @@ class VersionsController < ApplicationController
 
     # 
     def admin_privileges (version_title)
-      version_title == "default" || version_title == "def_simple" || version_title == "def_lyrics"
+      (version_title == "default") || (version_title == "def_simple")
     end
 end
