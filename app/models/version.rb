@@ -14,6 +14,23 @@ class Version < ApplicationRecord
         )
     }
 
+    # retorna apenas a letra da musica
+    def singalong (song_partitions = self.songparts)
+        reverse_engineering(song_partitions)
+
+        @transcribed_text = ""
+        @partitions_structure.each do |verse, lines|
+            lines.each_with_index do |line, i|
+                if line == "L"
+                    plaintxt = I18n.transliterate(@song_partitions[verse][i].gsub(/\s*[-]\s*/, '').gsub(/\s*[^[:alpha:]]\s*/, ' ').downcase)
+                    @transcribed_text << plaintxt
+                end
+            end
+        end
+
+        @transcribed_text
+    end
+
     # retorna os dados de forma apresentavel ao usuario
     def transcribe (song_partitions = self.songparts)
         reverse_engineering(song_partitions)
