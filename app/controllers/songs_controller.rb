@@ -31,7 +31,7 @@ class SongsController < ApplicationController
             "UNACCENT(LOWER(lyrics)) like ?", "%#{searchexpr}%"
           )).order(
           "CASE
-            WHEN UNACCENT(LOWER(title)) like '#{searchterm}' THEN '1'
+            WHEN UNACCENT(LOWER(title)) like '%#{searchterm}%' THEN '1'
           END", "LOWER(title)"
         )
       end
