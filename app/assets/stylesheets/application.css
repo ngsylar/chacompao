@@ -19,7 +19,7 @@ p.notice {
     font-weight: bold;
 }
 p.alert {
-    color: red;
+    color: #cc0000;
     font-weight: bold;
 }
 table.homemenu {

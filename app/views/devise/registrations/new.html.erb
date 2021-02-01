@@ -19,6 +19,10 @@
   </div>
 
   <div class="field">
+    <%= f.hidden_field :themepref, value: "normal" %>
+  </div>
+
+  <div class="field">
     <%= f.label :password, "Senha" %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>

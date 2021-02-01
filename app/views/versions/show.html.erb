@@ -25,28 +25,36 @@
   </tbody></table>
 
   <table><tbody>
-    <tr>
+    <tr class="tdbutton">
       <% if @disp_fav == nil %>
         <td><%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '1'), method: :get do %><i class="material-icons">star_border</i><% end %></td>
-        <td><%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '1'), method: :get do %>Adicionar cifra às favoritas<% end %></td>
+        <td><%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '1'), method: :get do %><div class="songlist">Adicionar cifra às favoritas</div><% end %></td>
       <% else %>
         <td><%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '-1'), method: :get do %><i class="material-icons">star</i><% end %></td>
-        <td><%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '-1'), method: :get do %>Remover cifra das favoritas<% end %></td>
+        <td><%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '-1'), method: :get do %><div class="songlist">Remover cifra das favoritas</div><% end %></td>
       <% end %>
     </tr>
     <% if current_user.id == @user.id %>
-      <tr>
+      <tr class="tdbutton">
         <td><%= link_to edit_version_path(@version) do %><i class="material-icons">edit</i><% end %></td>
-        <td><%= link_to "Editar cifra", edit_version_path(@version) %></td>
+        <td>
+          <%= link_to edit_version_path(@version) do %>
+            <div class="songlist">Editar cifra</div>
+          <% end %>
+        </td>
       </tr>
     <% end %>
-    <tr>
+    <tr class="tdbutton">
       <td><%= link_to new_version_path(ref_song: @song.id) do %><i class="material-icons">post_add</i><% end %></td>
-      <td><%= link_to "Adicionar cifra", new_version_path(ref_song: @song.id) %></td>
+      <td>
+        <%= link_to new_version_path(ref_song: @song.id) do %>
+          <div class="songlist">Adicionar cifra</div>
+        <% end %>
+      </td>
     </tr>
-    <tr>
+    <tr class="tdbutton">
       <td><i class="material-icons">format_list_numbered</i></td>
-      <td>Adicionar música a uma lista</td>
+      <td><div class="songlist">Adicionar música a uma lista</div></td>
     </tr>
   </tbody></table>
 </div>
@@ -59,17 +67,17 @@
   </tbody></table>
 
   <table><tbody>
-    <tr>
+    <tr class="tdbutton">
       <td><%= link_to homepage_url do %><i class="material-icons">home</i><% end %></td>
-      <td><%= link_to homepage_url do %>Página inicial<% end %></td>
+      <td><%= link_to homepage_url do %><div class="songlist">Página inicial</div><% end %></td>
     </tr>
-    <tr>
+    <tr class="tdbutton">
       <td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
-      <td><%= link_to songs_path do %>Músicas<% end %></td>
+      <td><%= link_to songs_path do %><div class="songlist">Músicas</div><% end %></td>
     </tr>
-    <tr>
+    <tr class="tdbutton">
       <td><%= link_to @song do %><i class="material-icons">library_music</i><% end %></td>
-      <td><%= link_to @song do %>Cifras<% end %></td>
+      <td><%= link_to @song do %><div class="songlist">Cifras</div><% end %></td>
     </tr>
   </tbody></table>
 </div>

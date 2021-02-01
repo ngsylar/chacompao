@@ -36,6 +36,11 @@
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
+  <div class="field">
+    <%= f.label :themepref, "Tema (beta)" %><br />
+    <%= f.select :themepref, ['normal', 'dark'], autocomplete: "themepref" %>
+  </div><br/>
+
   <div class="actions">
     <%= f.submit "Salvar" %>
   </div><br/>

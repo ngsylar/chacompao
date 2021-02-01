@@ -10,6 +10,44 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <style>
+      <% if user_signed_in? && current_user.themepref == 'dark' %>
+        body {
+          background-color: #1c1e1f;
+          color: #fff;
+        }
+        a {
+          color: #fff;
+        }
+        a:visited {
+          color: #fff;
+        }
+        a:hover {
+          color: #000;
+          background-color: #fff;
+        }
+        .chords_menu {
+          background-color: #1c1e1f;
+        }
+        .tdbutton a:hover {
+            color: #fff;
+        }
+        .tdbutton:hover {
+            background-color: #232729;
+        }
+        p.notice, #notice {
+          color: #8ae22b;
+        }
+        span.boldred, span.chords, p.alert, #alert {
+          color: #ff688c;
+          /* color: #f92472; */
+        }
+        th {
+          color: #ddd;
+        }
+      <% end %>
+    </style>
   </head>
 
   <body>

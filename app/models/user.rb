@@ -9,4 +9,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   enum role: %i[administrator musician commonuser]
+  enum themepref: %i[normal dark]
 end

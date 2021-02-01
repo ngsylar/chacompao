@@ -6,9 +6,9 @@ Pendências:
 
 * (smhws) Layout responsivo
 
-* Disposição dos links na página da cifra (como está?)
+* (ok) Apenas letra (escondida) (favorece o mecanismo de busca)
 
-* (?) Apenas letra (favorece o mecanismo de busca)
+* Layout dos links das tabelas de menu flutuante na cifra
 
 Funcionalidades:
 
