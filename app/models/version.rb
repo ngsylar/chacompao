@@ -54,7 +54,7 @@ class Version < ApplicationRecord
             @transcribed_text << "\n"
         end
 
-        @transcribed_text
+        @transcribed_text.gsub("\\", "\"")
     end
 
     # retorna a cifra como um texto editavel
@@ -75,7 +75,7 @@ class Version < ApplicationRecord
             end
         end
 
-        @handwritten_text
+        @handwritten_text.gsub("\\", "\"")
     end
 
     # retorna a cifra com uma nova tonalidade

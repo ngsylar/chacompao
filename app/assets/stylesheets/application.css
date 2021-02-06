@@ -107,7 +107,17 @@ div.scplayer {
     position: fixed;
     display: block;
     padding: 4px;
-    bottom: 0;
+    bottom: -120px;
+    border-style: groove;
+    border-radius: 16px;
+    -webkit-animation: slide 0.2s forwards;
+    animation: slide 0.2s forwards;
+}
+@-webkit-keyframes slide {
+    100% { bottom: 10px; }
+}
+@keyframes slide {
+    100% { bottom: 10px; }
 }
 .chords_first_menu {
     margin-left: auto;
