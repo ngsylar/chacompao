@@ -14,7 +14,8 @@
     <style>
       <% if user_signed_in? && current_user.themepref == 'dark' %>
         body {
-          background-color: #1c1e1f;
+          /* background-color: #1c1e1f; */
+          background-color: #121019;
           color: #fff;
         }
         a {
@@ -27,14 +28,17 @@
           color: #000;
           background-color: #fff;
         }
-        .chords_menu {
-          background-color: #1c1e1f;
+        .chords_menu, div.scplayer {
+          /* background-color: #1c1e1f; */
+          background-color: #121019;
         }
         .tdbutton a:hover {
             color: #fff;
         }
         .tdbutton:hover {
-            background-color: #232729;
+            /* background-color: #232729; */
+            /* background-color: #251f33; */
+            background-color: #191922;
         }
         p.notice, #notice {
           color: #8ae22b;
@@ -42,8 +46,9 @@
         span.boldred, span.chords, p.alert, #alert {
           color: #ff688c;
           /* color: #f92472; */
+          /* color: #fa1e4e; */
         }
-        th {
+        th, span.versiontitle, .scsub {
           color: #ddd;
         }
       <% end %>

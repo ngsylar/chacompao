@@ -1,28 +1,35 @@
 <div class="scplayer">
   <%# <i class="material-icons">speed</i> %>
-  <span class="subtitle"><div class="sccontrol" id="scspeed"></div></span><br/>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <button type="button" id="scslow"><i class="material-icons">fast_rewind</i></button>
-  <div class="sccontrol sccontrol_front scbtactive">
-    <button type="button" id="scplay"><i class="material-icons">play_arrow</i></button>
-  </div><div class="sccontrol sccontrol_back">
-    <button type="button" id="scpause"><i class="material-icons">pause</i></button>
-  </div> <button type="button" id="scfast"><i class="material-icons">fast_forward</i></button>
-  <button type="button" id="sctop"><i class="material-icons">replay</i></button>
-  <button class="incfont"><i class="material-icons">add</i></button>
-  <button class="decfont"><i class="material-icons">remove</i></button>
+  <div class="scdiv">
+    <span class="scsub">rolagem <div class="sccontrol" id="scspeed"></div></span><br/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <button type="button" id="scslow"><i class="material-icons">fast_rewind</i></button>
+    <div class="sccontrol sccontrol_front scbtactive">
+      <button type="button" id="scplay"><i class="material-icons">play_arrow</i></button>
+    </div><div class="sccontrol sccontrol_back">
+      <button type="button" id="scpause"><i class="material-icons">pause</i></button>
+    </div> <button type="button" id="scfast"><i class="material-icons">fast_forward</i></button>
+  </div>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <div class="scdiv">
+    <span class="scsub">letra</span><br/>
+    <button class="incfont" id="scbig"><i class="material-icons">add</i></button>
+    <button class="decfont" id="scsmall"><i class="material-icons">remove</i></button>
+  </div>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <div class="scdiv">
+    <span class="scsub">faixa</span><br/>
+    <button type="button" id="scprev"><i class="material-icons">skip_previous</i></button>
+    <button type="button" id="sctop"><i class="material-icons">replay</i></button>
+    <button type="button" id="scnext"><i class="material-icons">skip_next</i></button>
+  </div>
   <%# <div id="scloc"></div> %>
 </div>
 
 <div class="chords_menu" id="sec_box" style="display: none;">
-  <table class="chords_first_menu"><tbody>
-    <tr>
-      <td><%= link_to homepage_url do %><i class="material-icons">home</i><% end %></td>
-      <td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
-      <td><%= link_to @song do %><i class="material-icons">library_music</i><% end %></td>
-      <td><a id="attach_box2"><i class="material-icons">clear</i></a></td>
-    </tr>
-  </tbody></table>
+  <table class="chords_close_menu"><tbody><tr>
+    <td><a id="attach_box2"><i class="material-icons">clear</i></a></td>
+  </tr></tbody></table>
 
   <table><tbody>
     <tr class="tdbutton">
@@ -57,14 +64,19 @@
       <td><div class="songlist">Adicionar música a uma lista</div></td>
     </tr>
   </tbody></table>
+  <br/>
+
+  <table class="chords_first_menu"><tbody><tr>
+    <td><%= link_to homepage_url do %><i class="material-icons">home</i><% end %></td>
+    <td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
+    <td><%= link_to @song do %><i class="material-icons">library_music</i><% end %></td>
+  </tr></tbody></table>
 </div>
 
 <div class="chords_menu" id="back_box" style="display: none;">
-  <table class="chords_first_menu"><tbody>
-    <tr>
-      <td><a id="attach_box4"><i class="material-icons">clear</i></a></td>
-    </tr>
-  </tbody></table>
+  <table class="chords_close_menu"><tbody><tr>
+    <td><a id="attach_box4"><i class="material-icons">clear</i></a></td>
+  </tr></tbody></table>
 
   <table><tbody>
     <tr class="tdbutton">
@@ -189,7 +201,7 @@
 </div>
 
 <div id="chordend">
-  <a id="attach_box3">Voltar para</a>
+  <a id="attach_box3"><i class="material-icons">arrow_back</i></a>
 </div>
 
 <script type="text/javascript">
@@ -212,7 +224,7 @@
   // }
 
   function scspeed(txt) {
-    $("#scspeed").html("<strong>" + txt + "x</strong>")
+    $("#scspeed").html(txt + "x")
   }
 
   $(function() {

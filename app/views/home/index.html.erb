@@ -1,6 +1,11 @@
 <div class="phome">
 <h1>Chá com Pão</h1>
-<br/><br/><%= image_tag("guitar_piano.png") %>
+<br/><br/>
+<% if user_signed_in? && current_user.themepref == 'dark' %>
+  <%= image_tag("guitar_piano3.png") %>
+<% else %>
+  <%= image_tag("guitar_piano2.png") %>
+<% end %>
 
 <% if user_signed_in? %>
   <p><strong>Nome: </strong><%= current_user.full_name %><br/>
