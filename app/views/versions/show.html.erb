@@ -1,6 +1,10 @@
 <div class="scplayer">
   <%# <i class="material-icons">speed</i> %>
   <div class="scdiv">
+    <span id="scprev"><a id="attach_box"><i class="material-icons">menu</i></a></span>
+  </div>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <div class="scdiv">
     <span class="scsub">rolagem <div class="sccontrol" id="scspeed"></div></span><br/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <button type="button" id="scslow"><i class="material-icons">fast_rewind</i></button>
@@ -12,16 +16,16 @@
   </div>
   &nbsp;&nbsp;&nbsp;&nbsp;
   <div class="scdiv">
-    <span class="scsub">letra</span><br/>
-    <button class="incfont" id="scbig"><i class="material-icons">add</i></button>
-    <button class="decfont" id="scsmall"><i class="material-icons">remove</i></button>
-  </div>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <div class="scdiv">
     <span class="scsub">faixa</span><br/>
     <button type="button" id="scprev"><i class="material-icons">skip_previous</i></button>
     <button type="button" id="sctop"><i class="material-icons">replay</i></button>
     <button type="button" id="scnext"><i class="material-icons">skip_next</i></button>
+  </div>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <div class="scdiv">
+    <span class="scsub">letra</span><br/>
+    <button class="decfont" id="scsmall"><i class="material-icons">remove</i></button>
+    <button class="incfont" id="scbig"><i class="material-icons">add</i></button>
   </div>
   <%# <div id="scloc"></div> %>
 </div>
@@ -32,6 +36,21 @@
   </tr></tbody></table>
 
   <table><tbody>
+    <tr class="tdbutton">
+      <td><%= link_to homepage_url do %><i class="material-icons">home</i><% end %></td>
+      <td><%= link_to homepage_url do %><div class="songlist">Página inicial</div><% end %></td>
+    </tr>
+    <tr class="tdbutton">
+      <td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
+      <td><%= link_to songs_path do %><div class="songlist">Músicas</div><% end %></td>
+    </tr>
+    <tr class="tdbutton">
+      <td><%= link_to @song do %><i class="material-icons">library_music</i><% end %></td>
+      <td><%= link_to @song do %><div class="songlist">Cifras</div><% end %></td>
+    </tr>
+
+    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+
     <tr class="tdbutton">
       <% if @disp_fav == nil %>
         <td><%= link_to url_for(key_change: '2', on_click: @on_click, prefs: @user_pref, star: '1'), method: :get do %><i class="material-icons">star_border</i><% end %></td>
@@ -63,34 +82,8 @@
       <td><i class="material-icons">format_list_numbered</i></td>
       <td><div class="songlist">Adicionar música a uma lista</div></td>
     </tr>
-  </tbody></table>
-  <br/>
-
-  <table class="chords_first_menu"><tbody><tr>
-    <td><%= link_to homepage_url do %><i class="material-icons">home</i><% end %></td>
-    <td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
-    <td><%= link_to @song do %><i class="material-icons">library_music</i><% end %></td>
-  </tr></tbody></table>
-</div>
-
-<div class="chords_menu" id="back_box" style="display: none;">
-  <table class="chords_close_menu"><tbody><tr>
-    <td><a id="attach_box4"><i class="material-icons">clear</i></a></td>
-  </tr></tbody></table>
-
-  <table><tbody>
-    <tr class="tdbutton">
-      <td><%= link_to homepage_url do %><i class="material-icons">home</i><% end %></td>
-      <td><%= link_to homepage_url do %><div class="songlist">Página inicial</div><% end %></td>
-    </tr>
-    <tr class="tdbutton">
-      <td><%= link_to songs_path do %><i class="material-icons">search</i><% end %></td>
-      <td><%= link_to songs_path do %><div class="songlist">Músicas</div><% end %></td>
-    </tr>
-    <tr class="tdbutton">
-      <td><%= link_to @song do %><i class="material-icons">library_music</i><% end %></td>
-      <td><%= link_to @song do %><div class="songlist">Cifras</div><% end %></td>
-    </tr>
+  
+    <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
   </tbody></table>
 </div>
 
@@ -124,11 +117,9 @@
   <table>
     <thead>
       <tr>
-        <th>Tom</th>
+        <th class="scsub">tonalidade</th>
         <th></th>
-        <th>Usar</th>
-        <th></th>
-        <th></th>
+        <th class="scsub">usar apenas</th>
       </tr>
     </thead>
     <tbody>
@@ -137,36 +128,32 @@
           <%= link_to url_for(key_change: '-1', on_click: @on_click, prefs: @user_pref), method: :get do %>
             –&half;
           <% end %>
-          <span class="boldred">
+          <span class="text boldred txtbrsize">
             <% if (@key == 0) && (@user_pref == 0) %>
-              <%= @version.key %>
+              &nbsp;<%= @version.key %>&nbsp;
             <% else %>
               <% @key_name = @version.change_keyname(@key, @user_pref) %>
-              <%= @key_name %>
+              &nbsp;<%= @key_name %>&nbsp;
             <% end %>
           </span>
           <%= link_to url_for(key_change: '1', on_click: @on_click, prefs: @user_pref), method: :get do %>
             +&half;
           <% end %>
         </td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td id="harmonicfield">
           <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: '0'), method: :get do %>
             <% if @user_pref == 0 %><span class="boldred">&natur;</span>
             <% else %><strong>&natur;</strong><% end %>
-          <% end %>&nbsp;&nbsp;
+          <% end %>&nbsp;&nbsp;&nbsp;&nbsp;
           <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: '1'), method: :get do %>
             <% if @user_pref == 1 %><span class="boldred">&sharp;</span>
             <% else %><strong>&sharp;</strong><% end %>
-          <% end %>&nbsp;&nbsp;
+          <% end %>&nbsp;&nbsp;&nbsp;&nbsp;
           <%= link_to url_for(key_change: '2', on_click: @on_click, prefs: '2'), method: :get do %>
             <% if @user_pref == 2 %><span class="boldred">&flat;</span>
             <% else %><strong>&flat;</strong><% end %>
           <% end %>
-        </td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <td>
-          &#9662; <a id="attach_box">Mais</a>
         </td>
       </tr>
     </tbody>
@@ -200,9 +187,7 @@
 </p>
 </div>
 
-<div id="chordend">
-  <a id="attach_box3"><i class="material-icons">arrow_back</i></a>
-</div>
+<div id="chordend"></div>
 
 <script type="text/javascript">
   const $sccontrol_front = document.querySelector('.sccontrol_front');
@@ -244,16 +229,6 @@
 
     $('#attach_box2').click(function() {
       $('#sec_box').toggle();
-      return false;
-    });
-
-    $('#attach_box3').click(function() {
-      $('#back_box').toggle();
-      return false;
-    });
-
-    $('#attach_box4').click(function() {
-      $('#back_box').toggle();
       return false;
     });
   });

@@ -46,15 +46,19 @@ span.lyrics {
 #modhalf a:link {
     text-decoration: none;
     font-weight: bold;
+    font-size: 16px;
 }
 #harmonicfield a:link {
     text-decoration: none;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 24px;
 }
 span.boldred {
     color:#cc0000;
     font-weight: bold;
+}
+.txtbrsize {
+    font-size: 18px;
 }
 span.versiontitle {
     color: #222;
@@ -125,6 +129,8 @@ div.scplayer {
     border-radius: 16px;
     -webkit-animation: slide 0.2s forwards;
     animation: slide 0.2s forwards;
+    max-height: 70%;
+    overflow-y: scroll;
 }
 @-webkit-keyframes slide {
     100% { bottom: 10px; }
@@ -139,9 +145,14 @@ div.scplayer {
 .chords_close_menu {
     margin-left: auto;
 }
-#attach_box, #attach_box3 {
-    text-decoration: underline;
+/* ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 4px;
 }
+::-webkit-scrollbar-thumb {
+    border-radius: 16px;
+    background-color: #222;
+} */
 
 /* lists */
 .tdbutton a:link {
