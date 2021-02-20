@@ -17,65 +17,82 @@
   </ul>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th>Música</th>
-      <th>Cifras</th>
-    </tr>
-  </thead>
+<% if @songs != nil %>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Música</th>
+        <th>Cifras</th>
+      </tr>
+    </thead>
 
-  <tbody>
-    <% @songs.each do |song| %>
-      <tr class="tdbutton">
-        <% fav_ver = Favorite.find_by(user_id: current_user.id, song_id: song.id) %>
-        <% if fav_ver == nil %>
-          <% chosen_version = Version.find_by(song_id: song.id, title: "default") %>
-        <% else %>
-          <% chosen_version = Version.find(fav_ver.version_id) %>
-        <% end %>
+    <tbody>
+      <% @songs.each do |song| %>
+        <tr class="tdbutton">
+          <% fav_ver = Favorite.find_by(user_id: current_user.id, song_id: song.id) %>
+          <% if fav_ver == nil %>
+            <% chosen_version = Version.find_by(song_id: song.id, title: "default") %>
+          <% else %>
+            <% chosen_version = Version.find(fav_ver.version_id) %>
+          <% end %>
 
-        <% if song.number %>
-          <td>
+          <% if song.number %>
+            <td>
+              <%= link_to chosen_version, method: :get do %>
+                <div class="songlist"><%= song.number %></div>
+              <% end %>
+            </td>
+          <% end %>
+          
+          <% if song.number %>
+            <td>
+          <% else %>
+            <td colspan="2">
+          <% end %>
             <%= link_to chosen_version, method: :get do %>
-              <div class="songlist"><%= song.number %></div>
+              <div class="songlist">
+                <%= song.title %>
+                <span class="subtitle">
+                  <% if !song.author.empty? %>
+                    <br/>(<%= song.author %>)
+                  <% end %>
+                  <% if !song.category.empty? %>
+                    <br/>(<%= song.category %>)
+                  <% end %>
+                </span>
+              </div>
             <% end %>
           </td>
-        <% end %>
-        
-        <% if song.number %>
-          <td>
-        <% else %>
-          <td colspan="2">
-        <% end %>
-          <%= link_to chosen_version, method: :get do %>
-            <div class="songlist">
-              <%= song.title %>
-              <span class="subtitle">
-                <% if !song.author.empty? %>
-                  <br/>(<%= song.author %>)
-                <% end %>
-                <% if !song.category.empty? %>
-                  <br/>(<%= song.category %>)
-                <% end %>
-              </span>
-            </div>
-          <% end %>
-        </td>
-        
-        <td><%= link_to song do %><i class="material-icons">library_music</i><% end %>
-        <% if current_user.role == "administrator" %>
-          <%= link_to edit_song_path(song) do %><i class="material-icons">edit</i><% end %>
-          <%= link_to song, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %>
-            <i class="material-icons">delete</i>
-          <% end %>
-        <% end %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+          
+          <td><%= link_to song do %><i class="material-icons">library_music</i><% end %>
+          <% if current_user.role == "administrator" %>
+            <%= link_to edit_song_path(song) do %><i class="material-icons">edit</i><% end %>
+            <%= link_to song, method: :delete, data: { confirm: 'Tem certeza? Esta ação não poderá ser desfeita.' } do %>
+              <i class="material-icons">delete</i>
+            <% end %>
+          <% end %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<br>
+<% else %>
+  Como pesquisar:
+  <ul>
+    <li>Pesquise por qualquer parte da letra</li>
+    <li>Não precisa utilizar acentuação</li>
+    <li>Não precisa utilizar pontuação</li>
+  </ul>
+
+  Comandos específicos:
+  <ul>
+    <li>!tudo</li>
+    <li>!coletanea</li>
+    <li>!avulso</li>
+  </ul>
+<% end %>
+
+<br/>
 
 <%= link_to 'Voltar', "home/index" %>

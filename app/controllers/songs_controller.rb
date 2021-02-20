@@ -8,32 +8,51 @@ class SongsController < ApplicationController
   def index
     searchfilter = params[:search]
 
-    if (searchfilter == nil) || (searchfilter.empty?)
-      @songs = Song.order(
-        "CASE
-          WHEN LOWER(category) = 'contracapa' THEN '1'
-          WHEN LOWER(category) = 'avulso' THEN '4'
-          WHEN number IS NULL THEN '5'
-          WHEN LOWER(category) != 'cias' THEN '2'
-          WHEN LOWER(category) = 'cias' THEN '3'
-        END",
-        "number ASC", "LOWER(title)"
-      )
-
-    else
-      @songs = Song.where(number: searchfilter)
-      searchterm = I18n.transliterate(searchfilter.downcase)
-      searchexpr = searchterm.gsub(/\s*[-]\s*/, '')
-      if @songs.empty?
-        @songs = Song.where(
-          "UNACCENT(LOWER(title)) like ?", "%#{searchterm}%"
-        ).or(Song.where(
-            "UNACCENT(LOWER(lyrics)) like ?", "%#{searchexpr}%"
-          )).order(
+    if (searchfilter != nil) && !searchfilter.empty?
+      if searchfilter.include?("!tudo")
+        @songs = Song.order(
           "CASE
-            WHEN UNACCENT(LOWER(title)) like '%#{searchterm}%' THEN '1'
-          END", "LOWER(title)"
+            WHEN LOWER(category) = 'contracapa' THEN '1'
+            WHEN LOWER(category) = 'avulso' THEN '4'
+            WHEN number IS NULL THEN '5'
+            WHEN LOWER(category) != 'cias' THEN '2'
+            WHEN LOWER(category) = 'cias' THEN '3'
+          END",
+          "number ASC", "LOWER(title)"
         )
+
+      elsif searchfilter.include?("!coletanea")
+        @songs = Song.where.not(number: nil).or(Song.where(
+          "LOWER(category) = 'contracapa'"
+        )).order(
+          "CASE
+            WHEN LOWER(category) = 'contracapa' THEN '1'
+            WHEN LOWER(category) != 'cias' THEN '2'
+            WHEN LOWER(category) = 'cias' THEN '3'
+          END",
+          "number ASC"
+        )
+
+      elsif searchfilter.include?("!avulso")
+        @songs = Song.where(
+          "number IS NULL AND LOWER(category) != 'contracapa'"
+        ).order("LOWER(title)")
+      
+      else
+        @songs = Song.where(number: searchfilter)
+        searchterm = I18n.transliterate(searchfilter.downcase)
+        searchexpr = searchterm.gsub(/\s*[-]\s*/, '')
+        if @songs.empty?
+          @songs = Song.where(
+            "UNACCENT(LOWER(title)) like ?", "%#{searchterm}%"
+          ).or(Song.where(
+              "UNACCENT(LOWER(lyrics)) like ?", "%#{searchexpr}%"
+            )).order(
+            "CASE
+              WHEN UNACCENT(LOWER(title)) like '%#{searchterm}%' THEN '1'
+            END", "LOWER(title)"
+          )
+        end
       end
     end
   end
